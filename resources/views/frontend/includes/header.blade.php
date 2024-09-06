@@ -45,67 +45,7 @@
             <i class="fa-solid fa-cart-shopping"></i>
         </div>
 
-
         <div class="cart border-0" id="cartItems">
-            <div class="cart-item d-flex ">
-                <div class="img">
-                    <img src="{{ asset('frontend/assets/imgs/tyres/econodrive.jpg') }}" width="40px" alt="">
-                </div>
-                <div class="item-detail">
-                    <p class="title">Summer Tyre Dunlop ECONO DRIVE 225/55</p>
-
-                    <div class="d-flex  align-items-center justify-content-between">
-                        <div class="qty-wrap d-flex align-items-center">
-                            <button><i class="fa-solid fa-minus"></i></button>
-                            <input type="text" min="1" value="1">
-                            <button><i class="fa-solid fa-plus"></i></button>
-                        </div>
-                        <p class=" price">£ 127.05</p>
-                    </div>
-
-                </div>
-                <a href="#" class="ms-auto remove-icon"><i class="fa-solid fa-xmark"></i></a>
-            </div>
-
-            <div class="cart-item d-flex ">
-                <div class="img">
-                    <img src="{{ asset('frontend/assets/imgs/tyres/econodrive.jpg') }}" width="40px" alt="">
-                </div>
-                <div class="item-detail">
-                    <p class="title">Summer Tyre Dunlop ECONO DRIVE 225/55</p>
-
-                    <div class="d-flex  align-items-center justify-content-between">
-                        <div class="qty-wrap d-flex align-items-center">
-                            <button><i class="fa-solid fa-minus"></i></button>
-                            <input type="text" min="1" value="1">
-                            <button><i class="fa-solid fa-plus"></i></button>
-                        </div>
-                        <p class=" price">£ 127.05</p>
-                    </div>
-
-                </div>
-                <a href="#" class="ms-auto remove-icon"><i class="fa-solid fa-xmark"></i></a>
-            </div>
-
-            <div class="cart-item d-flex ">
-                <div class="img">
-                    <img src="{{ asset('frontend/assets/imgs/tyres/econodrive.jpg') }}" width="40px" alt="">
-                </div>
-                <div class="item-detail">
-                    <p class="title">Summer Tyre Dunlop ECONO DRIVE 225/55</p>
-
-                    <div class="d-flex  align-items-center justify-content-between">
-                        <div class="qty-wrap d-flex align-items-center">
-                            <button><i class="fa-solid fa-minus"></i></button>
-                            <input type="text" min="1" value="1">
-                            <button><i class="fa-solid fa-plus"></i></button>
-                        </div>
-                        <p class=" price ">£ 127.05</p>
-                    </div>
-
-                </div>
-                <a href="#" class="ms-auto remove-icon"><i class="fa-solid fa-xmark"></i></a>
-            </div>
 
 
 
@@ -113,7 +53,8 @@
 
         </div>
 
-        <div class="cart-btns">
+
+        <div class="cart-btns" id="sideCartBtnWrap">
             <div class="text-end ">
                 <h6 class="mb-3">Total <strong id="totalAmount">£127.05</strong></h6>
             </div>

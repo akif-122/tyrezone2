@@ -1,5 +1,43 @@
 let cart = JSON.parse(localStorage.getItem("tyreZoneCart"));
 
+
+// IF CART IS EMPY
+function isCartEmpt() {
+    let cart = JSON.parse(localStorage.getItem("tyreZoneCart"));
+
+    if (cart.length == 0) {
+        if (document.getElementById("checkout-table") != null) {
+            document.getElementById("checkout-table").innerHTML = `<div class="text-center my-4"> 
+            <i class="fa-solid fa-cart-plus"></i>
+             <h6 class='text-center mt-2 '> Your Cart is Empty!</h6>
+              </div>`
+
+        }
+        if (document.getElementById("mainCart") != null) {
+            document.getElementById("mainCart").innerHTML = `<div class="text-center my-4"> 
+            <i class="fa-solid fa-cart-plus"></i>
+             <h6 class='text-center mt-2 '> Your Cart is Empty!</h6>
+              </div>`
+
+        }
+        if (document.getElementById("cartItems") != null) {
+            document.getElementById("cartItems").innerHTML = `<div class="text-center my-4"> 
+            <i class="fa-solid fa-cart-plus"></i>
+             <h6 class='text-center mt-2 '> Your Cart is Empty!</h6>
+              </div>`
+
+        }
+        if (document.getElementById("sideCartBtnWrap") != null) {
+            document.getElementById("sideCartBtnWrap").classList.add("d-none")
+
+        }
+    }
+
+}
+isCartEmpt();
+
+
+// TOTAL AMOUNT OF CART ITEM
 function totalAmount() {
     let cart = JSON.parse(localStorage.getItem("tyreZoneCart"));
     let total = 0;
@@ -18,7 +56,7 @@ function totalAmount() {
 
 }
 
-
+// INIT CART IF IT'S EMPTY 
 if (cart != null) {
     let count = document.getElementById("count");
     count.innerHTML = cart.length;
@@ -26,6 +64,7 @@ if (cart != null) {
     localStorage.setItem("tyreZoneCart", JSON.stringify([]));
 }
 
+// CART ITEM LENGTH 
 function cartLength() {
     let cart = JSON.parse(localStorage.getItem("tyreZoneCart"));
 
@@ -33,15 +72,14 @@ function cartLength() {
     count.innerHTML = cart.length;
 }
 
-
+//  GET SIDEBAR CART ITEMS WRAPPER WHERE ITEMS WILL BE DISPLAY 
 let cartItemEle = document.getElementById("cartItems");
 
-
+// GET AN ATTRIBUTE VALUE FOR BLADE TEMPLATE
 let baseAssetUrl = document.getElementById('product-container').getAttribute('data-asset-base-url');
 
 // SHOW CART ITEM TO DOM
 function callData() {
-
     cartItemEle.innerHTML = "";
 
     let tbody = document.querySelector("#tbody");
@@ -101,7 +139,7 @@ function callData() {
         })
 
 
-        // MAIN CART
+        // MAIN CART PAGE
         let tbody = document.querySelector("#tbody");
         if (tbody != null) {
             let tr = document.createElement("tr");
@@ -117,7 +155,7 @@ function callData() {
                                 </div>
                             </div>
                         </td>
-                        <td data-th="Unit Price:" class="text-right">£${(product.price).toFixed(2)}</td>
+                        <td data-th="Unit Price:" class="text-right">£${(+product.price).toFixed(2)}</td>
                         <td data-th="Total:" class="text-right">£${(product.qty * product.price).toFixed(2)}</td>
                         <td class="text-start"><span class="input-group-btn">
                                 <button type="button" class="remove removeItem "><i class="removeItem fa-solid fa-trash-can"></i></button>
@@ -141,7 +179,7 @@ function callData() {
             })
         }
 
-        // CHECKOUT CART
+        // CHECKOUT PAGE CART 
 
         let checkoutCart = document.getElementById("checkout-tbody");
 
@@ -150,6 +188,8 @@ function callData() {
             tr.innerHTML = `<td>
                                 <div class="item-title">
                                     <p>${product.name}</p>
+                                    <input type="hidden" name="product_id"  value="${product.id}">
+
                                 </div>
                             </td>
 
@@ -194,6 +234,8 @@ function callData() {
     })
 
     totalAmount();
+    isCartEmpt();
+
 }
 callData();
 
@@ -204,6 +246,7 @@ function removeFromCart(id) {
     let filterData = cart.filter(product => product.id != id);
 
     localStorage.setItem("tyreZoneCart", JSON.stringify(filterData));
+    isCartEmpt();
 
     callData();
     cartLength()
@@ -231,5 +274,6 @@ function decreaseQty(id) {
 
         callData();
     }
+
     // cartLength()
 }

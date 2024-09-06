@@ -247,10 +247,10 @@
                             <h3>Your Order</h3>
 
                             <!-- CART START -->
-                            <div class="cart">
+                            <div class="cart" id="checkCartItems">
                                 <div class="cart-items">
                                     <div class="table-responsive">
-                                        <table class="table ">
+                                        <table class="table mb-0" id="checkout-table">
                                             <tbody id="checkout-tbody">
 
                                                 <tr>
@@ -470,31 +470,31 @@
             <div class="footer-bottom d-flex align-items-center justify-content-center flex-column">
                 <p class="mb-0">© TYRE ZONE TYRES LTD 2024. All Rights Reserved.</p>
                 <!-- <div class="d-flex align-items-center justify-content-center flex-wrap gap-1">
-                                                                                                                                                                                    <div class="">
-                                                                                                                                                                                        <img src="assets/imgs/payzone.png" alt="">
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    <div class="">
-                                                                                                                                                                                        <img src="assets/imgs/Barclaycard_Logo.svg.png" alt="">
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    <div class="">
-                                                                                                                                                                                        <img src="assets/imgs/mastercard.png" alt="">
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    <div class="">
-                                                                                                                                                                                        <img src="assets/imgs/Visa-Logo-PNG-Image.png" alt="">
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    <div class="">
-                                                                                                                                                                                        <img src="assets/imgs/ecard.png" alt="">
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    <div class="">
-                                                                                                                                                                                        <img src="assets/imgs/maestro.png" alt="">
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    <div class="">
-                                                                                                                                                                                        <img src="assets/imgs/apple-pay.png" alt="">
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                    <div class="">
-                                                                                                                                                                                        <img src="assets/imgs/android-pay.png" alt="">
-                                                                                                                                                                                    </div>
-                                                                                                                                                                                </div> -->
+                                                                                                                                                                                                        <div class="">
+                                                                                                                                                                                                            <img src="assets/imgs/payzone.png" alt="">
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="">
+                                                                                                                                                                                                            <img src="assets/imgs/Barclaycard_Logo.svg.png" alt="">
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="">
+                                                                                                                                                                                                            <img src="assets/imgs/mastercard.png" alt="">
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="">
+                                                                                                                                                                                                            <img src="assets/imgs/Visa-Logo-PNG-Image.png" alt="">
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="">
+                                                                                                                                                                                                            <img src="assets/imgs/ecard.png" alt="">
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="">
+                                                                                                                                                                                                            <img src="assets/imgs/maestro.png" alt="">
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="">
+                                                                                                                                                                                                            <img src="assets/imgs/apple-pay.png" alt="">
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                        <div class="">
+                                                                                                                                                                                                            <img src="assets/imgs/android-pay.png" alt="">
+                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                    </div> -->
             </div>
 
         </footer>
