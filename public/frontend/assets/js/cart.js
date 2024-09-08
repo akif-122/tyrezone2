@@ -5,33 +5,35 @@ let cart = JSON.parse(localStorage.getItem("tyreZoneCart"));
 function isCartEmpt() {
     let cart = JSON.parse(localStorage.getItem("tyreZoneCart"));
 
-    if (cart.length == 0) {
-        if (document.getElementById("checkout-table") != null) {
-            document.getElementById("checkout-table").innerHTML = `<div class="text-center my-4"> 
+    if (cart != null) {
+        if (cart.length == 0) {
+            if (document.getElementById("checkout-table") != null) {
+                document.getElementById("checkout-table").innerHTML = `<div class="text-center my-4"> 
             <i class="fa-solid fa-cart-plus"></i>
              <h6 class='text-center mt-2 '> Your Cart is Empty!</h6>
               </div>`
 
-        }
-        if (document.getElementById("mainCart") != null) {
-            document.getElementById("mainCart").innerHTML = `<div class="text-center my-4"> 
+            }
+            if (document.getElementById("mainCart") != null) {
+                document.getElementById("mainCart").innerHTML = `<div class="text-center my-4"> 
             <i class="fa-solid fa-cart-plus"></i>
              <h6 class='text-center mt-2 '> Your Cart is Empty!</h6>
               </div>`
 
-        }
-        if (document.getElementById("cartItems") != null) {
-            document.getElementById("cartItems").innerHTML = `<div class="text-center my-4"> 
+            }
+            if (document.getElementById("cartItems") != null) {
+                document.getElementById("cartItems").innerHTML = `<div class="text-center my-4"> 
             <i class="fa-solid fa-cart-plus"></i>
              <h6 class='text-center mt-2 '> Your Cart is Empty!</h6>
               </div>`
 
-        }
-        if (document.getElementById("sideCartBtnWrap") != null) {
-            document.getElementById("sideCartBtnWrap").classList.add("d-none")
+            }
+            if (document.getElementById("sideCartBtnWrap") != null) {
+                document.getElementById("sideCartBtnWrap").classList.add("d-none")
+
+            }
 
         }
-        
     }
 
 }
@@ -195,8 +197,8 @@ function callData() {
             tr.innerHTML = `<td>
                                 <div class="item-title">
                                     <p>${product.name}</p>
-                                    <input type="text" name="product_id[]"  value="${product.id}">
-                                    <input type="text" name="qty[]"  value="${product.qty}">
+                                    <input type="hidden" name="product_id[]"  value="${product.id}">
+                                    <input type="hidden" name="qty[]"  value="${product.qty}">
 
                                 </div>
                             </td>

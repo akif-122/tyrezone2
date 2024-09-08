@@ -99,6 +99,7 @@ class PaymentController extends Controller
                     $orderDetail->save();
                 }
 
+                $orderDetailId = OrderDetail::where("user_id", Auth::user()->id)->first();
 
                 $product_ids = $request->product_id;
                 $qtys = $request->qty;
@@ -109,6 +110,7 @@ class PaymentController extends Controller
                         "product_id" => $product_id,
                         "qty" => $qtys[$index],
                         "user_id" => Auth::user()->id,
+                        "order_detail_id" => $orderDetailId->id,
                         "payment_status" => "Paid",
                         "order_status" => "Pending",
                         "total_price" => $request->pay_amount,
@@ -146,6 +148,7 @@ class PaymentController extends Controller
                     $orderDetail->save();
                 }
 
+                $orderDetailId = OrderDetail::where("user_id", Auth::user()->id)->first();
 
                 $product_ids = $request->product_id;
                 $qtys = $request->qty;
@@ -156,6 +159,7 @@ class PaymentController extends Controller
                         "product_id" => $product_id,
                         "qty" => $qtys[$index],
                         "user_id" => Auth::user()->id,
+                        "order_detail_id" => $orderDetailId->id,
                         "payment_status" => "Cash On Dlivery",
                         "order_status" => "Pending",
                         "total_price" => $request->pay_amount,

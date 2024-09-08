@@ -255,7 +255,7 @@
                                         </div>
                                     </div>
 
-                                    <input type="text" id="totalPayAmount" name="pay_amount" >
+                                    <input type="hidden" id="totalPayAmount" name="pay_amount" >
                                 </div>
 
 
