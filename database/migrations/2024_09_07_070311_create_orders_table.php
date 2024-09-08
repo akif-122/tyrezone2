@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string("product_id");
             $table->string("user_id");
+            $table->string("order_detail_id");
             $table->string("qty");
             $table->string("payment_status");
+            $table->string("order_status");
             $table->string("total_price");
 
 
