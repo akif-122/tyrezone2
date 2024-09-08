@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
+use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\TyreSizeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\PatterenController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +27,7 @@ Route::view("/gallery", "frontend.gallery")->name("gallery");
 Route::view("/about", "frontend.about")->name("about");
 Route::view("/cart", "frontend.cart")->name("cart");
 
+Route::get("/save-cart", [PaymentController::class, "saveCart"])->name("saveCart");
 
 Route::group(["middleware" => "isLoggedIn"], function () {
     Route::get("/signup", [AuthController::class, "signup"])->name("signup");
@@ -39,6 +42,8 @@ Route::group(["middleware" => "auth"], function () {
     Route::get("/change-password", [AuthController::class, "changePassword"])->name("changePassword");
     Route::post("/update-password", [AuthController::class, "udpatePassword"])->name("udpatePassword");
     Route::get("/logout", [AuthController::class, "logout"])->name("logout");
+    Route::get("/orders", [PaymentController::class, "orderDetail"])->name("orders");
+    Route::get("/thanks", [PaymentController::class, "thanks"])->name("thanks");
 });
 
 
@@ -89,6 +94,15 @@ Route::group(["middleware" => "isAdmin"], function () {
 
 
         // ORDERS
-        Route::get("orders", [AdminController::class, "orders"])->name("admin.orders");
+        Route::get("orders", [OrderController::class, "orders"])->name("admin.orders");
+        Route::post("orders/status", [OrderController::class, "orderStatus"])->name("admin.status");
     });
+});
+
+
+Route::controller(PaymentController::class)->group(function () {
+
+    Route::get('stripe', 'stripe');
+
+    Route::post('stripe', 'stripePost')->name('stripe.post');
 });

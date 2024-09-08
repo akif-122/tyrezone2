@@ -50,12 +50,16 @@
 
         setTimeout(() => {
             alerts.forEach(alert => {
-                alert.classList.remove("show");
+                if (!alert.classList.contains("payment-alert")) {
+                    alert.classList.remove("show");
+                }
             });
         }, 3000);
         setTimeout(() => {
             alerts.forEach(alert => {
-                alert.remove();
+                if (!alert.classList.contains("payment-alert")) {
+                    alert.remove();
+                }
             });
         }, 3500);
     </script>

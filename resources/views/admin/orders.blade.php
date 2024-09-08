@@ -100,51 +100,60 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>Cus. Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
                         <th>Product Name</th>
                         <th>Image</th>
-                        <th>Manufac. Name</th>
+                        {{-- <th>Manufac. Name</th>
                         <th>Tyre Patteren</th>
-                        <th>fuel Effic.</th>
-                        <th>Wet Grip</th>
-                        <th>Road Noise</th>
+                         --}}
                         <th>Size</th>
                         <th>Shipping Address</th>
-                        <th>Postcode</th>
+                        {{-- <th>Postcode</th> --}}
                         <th>Qty</th>
                         <th>Price</th>
-                        <th>Status</th>
+                        <th>Pay Status</th>
+                        <th>Order Status</th>
 
                     </tr>
                 </thead>
 
                 <tbody>
 
+                    @if ($orders->isNotEmpty())
+                        @foreach ($orders as $order)
+                            <tr>
+                                <td>{{ $order->orderDetail->fname }}</td>
+                                <td>{{ $order->orderDetail->email }}</td>
+                                <td>{{ $order->orderDetail->phone }}</td>
+                                <td>{{ $order->product->name }}</td>
+                                <td>
+                                    <img src="{{ asset('uploads/products/' . $order->product->image) }}" alt="">
+                                </td>
+                                {{-- <td>Dunlop</td>
+                                <td>ECONO DRIVE</td> --}}
+                                <td>225/45 R17 94Y</td>
+                                <td>{{ $order->orderDetail->address }}</td>
+                                {{-- <td>
+                                    24420 </td> --}}
+                                <td>{{ $order->qty }}</td>
+                                <td>{{ $order->product->price * $order->qty }}</td>
+                                <td>{{ $order->payment_status }}</td>
+                                <td>
+                                    <select onchange="handleSelectChange(event, '{{ $order->id }}')"
+                                        class="border-0 outline-0">
+                                        <option value="Pending" {{ ($order->order_status == "Pending")? "selected" : "" }}>Pending</option>
+                                        <option value="Confirmed" {{ ($order->order_status == "Confirmed")? "selected" : "" }}>Confirmed</option>
+                                        <option value="Invalid" {{ ($order->order_status == "Invalid")? "selected" : "" }}>Invalid</option>
+                                        <option value="Not Available" {{ ($order->order_status == "Not Available")? "selected" : "" }}>Not Available</option>
+                                        <option value="Delivered" {{ ($order->order_status == "Delivered")? "selected" : "" }}>Delivered</option>
+                                    </select>
+                                </td>
 
-                    <tr>
-                        <td>Note 10 Pro</td>
-                        <td>Image</td>
-                        <td>Dunlop</td>
-                        <td>ECONO DRIVE</td>
-                        <td>C</td>
-                        <td>B</td>
-                        <td>70</td>
-                        <td>225/45 R17 94Y</td>
-                        <td>User Address</td>
-                        <td>
-                            24420 </td>
-                        <td>4</td>
-                        <td>40000</td>
-                        <td>
-                            <select class="border-0 outline-0">
-                                <option value="">Pending</option>
-                                <option value="">Confirmed</option>
-                                <option value="">Invalid</option>
-                                <option value="">Not Available</option>
-                                <option value="">Delivered</option>
-                            </select>
-                        </td>
-
-                    </tr>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -162,4 +171,32 @@
 
 
 @section('customjs')
+    <script>
+        function handleSelectChange(event, id) {
+
+            var value = event.target.value;
+            let order_id = id;
+
+            $.ajax({
+                url: "{{ route("admin.status") }}",
+                type: "post",
+                data: {
+                    "status": value,
+                    "id": order_id
+                },
+                dataType: "json",
+                success: function(res) {
+                    console.log(res);
+                    window.location.reload();
+                }
+            })
+
+
+        }
+
+
+        function orderStatus(e, ) {
+            console.log(e)
+        }
+    </script>
 @endsection

@@ -430,9 +430,5 @@ class AdminController extends Controller
 
 
 
-    // SHOW ADMIN TYRE ORDERS PAGE
-    function orders()
-    {
-        return view("admin.orders");
-    }
+   
 }

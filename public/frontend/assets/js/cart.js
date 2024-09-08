@@ -31,6 +31,7 @@ function isCartEmpt() {
             document.getElementById("sideCartBtnWrap").classList.add("d-none")
 
         }
+        
     }
 
 }
@@ -52,6 +53,12 @@ function totalAmount() {
     }
     if (document.querySelector("#total") != null) {
         document.querySelector("#total").innerText = "£" + total.toFixed(2);
+    }
+    if (document.querySelector("#totalPay") != null) {
+        document.querySelector("#totalPay").innerText = "£" + total.toFixed(2);
+    }
+    if (document.querySelector("#totalPayAmount") != null) {
+        document.querySelector("#totalPayAmount").value = total.toFixed(2);
     }
 
 }
@@ -188,7 +195,8 @@ function callData() {
             tr.innerHTML = `<td>
                                 <div class="item-title">
                                     <p>${product.name}</p>
-                                    <input type="hidden" name="product_id"  value="${product.id}">
+                                    <input type="text" name="product_id[]"  value="${product.id}">
+                                    <input type="text" name="qty[]"  value="${product.qty}">
 
                                 </div>
                             </td>

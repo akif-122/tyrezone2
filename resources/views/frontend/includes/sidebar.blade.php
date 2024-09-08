@@ -6,7 +6,7 @@
         <li><a href="{{ route("changePassword") }}" class="{{ Route::is("changePassword")? "active": "" }}"><i class="fa-solid fa-lock"></i>
                 Change Password</a></li>
 
-        <li><a href="orders.html"><i class="fa-solid fa-cart-flatbed"></i>
+        <li><a href="{{ route("orders") }}" class="{{ Route::is("orders")? "active": "" }}"><i class="fa-solid fa-cart-flatbed"></i>
                 My Orders</a>
         </li>
 

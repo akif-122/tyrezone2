@@ -1,5 +1,10 @@
 @extends('frontend.layout.app')
 
+@section('style')
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" /> --}}
+@endsection
+
+
 @section('main')
     <div class="wrapper">
 
@@ -8,7 +13,10 @@
         <!-- CHECKOUT DETAILS START -->
         <div class="checkout">
             <div class="container">
-                <form action="">
+                <form role="form" action="{{ route('stripe.post') }}" method="post" class="require-validation"
+                    data-cc-on-file="false" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}" id="payment-form">
+
+                    @csrf
 
                     <div class="row">
                         <div class="col-lg-7">
@@ -22,7 +30,8 @@
                                     <div class="col-sm-6 mb-3">
                                         <div class="form-group">
                                             <label for="">First Name <span>*</span></label>
-                                            <input type="text" name="fname" class="form-control"
+                                            <input type="text" name="fname"
+                                                class="form-control @error('fname') is-invalid @enderror"
                                                 placeholder="First Name">
                                         </div>
                                     </div>
@@ -30,7 +39,8 @@
                                     <div class="col-sm-6 mb-3">
                                         <div class="form-group">
                                             <label for="">Last Name <span>*</span></label>
-                                            <input type="text" name="lname" class="form-control"
+                                            <input type="text" name="lname"
+                                                class="form-control @error('lname') is-invalid @enderror"
                                                 placeholder="Last Name">
                                         </div>
                                     </div>
@@ -38,7 +48,9 @@
                                     <div class="col-sm-6 mb-3">
                                         <div class="form-group">
                                             <label for="">Email Name <span>*</span></label>
-                                            <input type="email" name="email" class="form-control" placeholder="Email">
+                                            <input type="email" name="email"
+                                                class="form-control @error('email') is-invalid @enderror"
+                                                placeholder="Email">
                                         </div>
                                     </div>
 
@@ -49,7 +61,8 @@
                                                 <div class="input-group-text">
                                                     +44
                                                 </div>
-                                                <input type="number" name="phone" class="form-control"
+                                                <input type="number" name="phone"
+                                                    class="form-control @error('phone') is-invalid @enderror"
                                                     placeholder="Telephone">
                                             </div>
                                         </div>
@@ -59,7 +72,8 @@
                                         <div class="form-group">
                                             <label for="">Reg. No. <span>*</span></label>
                                             <div class="input-group">
-                                                <input type="Text" name="reg_no" class="form-control"
+                                                <input type="Text" name="reg_no"
+                                                    class="form-control @error('reg_no') is-invalid @enderror"
                                                     placeholder="REG No.">
                                                 <button class="input-group-text igt-btn">
                                                     Lookup
@@ -77,7 +91,8 @@
                                         <div class="form-group">
                                             <label for="">Post Code <span>*</span></label>
                                             <div class="input-group">
-                                                <input type="text" name="post_code" class="form-control"
+                                                <input type="text" name="post_code"
+                                                    class="form-control @error('post_code') is-invalid @enderror"
                                                     placeholder="Post Code">
                                                 <button class="input-group-text igt-btn">
                                                     Lookup
@@ -89,28 +104,33 @@
                                     <div class="col-sm-6 mb-3">
                                         <div class="form-group">
                                             <label for="">Company <span>*</span></label>
-                                            <input type="text" name="company" class="form-control" placeholder="Company">
+                                            <input type="text" name="company"
+                                                class="form-control @error('company') is-invalid @enderror"
+                                                placeholder="Company">
                                         </div>
                                     </div>
 
                                     <div class="col-sm-12 mb-3">
                                         <div class="form-group">
                                             <label for="">Address <span>*</span></label>
-                                            <input type="text" name="address" class="form-control" placeholder="Company">
+                                            <input type="text" name="address"
+                                                class="form-control @error('address') is-invalid @enderror"
+                                                placeholder="Company">
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6 mb-3">
                                         <div class="form-group">
                                             <label for="">City <span>*</span></label>
-                                            <input type="text" name="city" class="form-control" placeholder="City">
+                                            <input type="text" name="city"
+                                                class="form-control @error('city') is-invalid @enderror" placeholder="City">
                                         </div>
                                     </div>
 
                                     <div class="col-sm-6 mb-3">
                                         <div class="form-group">
                                             <label for="">State <span>*</span></label>
-                                            <select class="form-select" name="State">
+                                            <select class="form-select @error('state') is-invalid @enderror" name="state">
                                                 <option value="Aberdeen">Aberdeen</option>
                                                 <option value="Aberdeenshire">Aberdeenshire</option>
                                                 <option value="Anglesey">Anglesey</option>
@@ -219,9 +239,10 @@
                                     <div class="col-sm-6 mb-3">
                                         <div class="form-group">
                                             <label for="">Country <span>*</span></label>
-                                            <select class="form-select">
+                                            <select class="form-select @error('country') is-invalid @enderror"
+                                                name="country">
                                                 <!-- <option value=""></option> -->
-                                                <option value="uk" name="country" selected="">United Kingdom
+                                                <option value="uk" selected="">United Kingdom
                                                 </option>
                                             </select>
                                         </div>
@@ -230,11 +251,11 @@
                                     <div class="col-12 mb-3">
                                         <div class="form-group ">
                                             <label for="">Comment/Notes</label>
-                                            <textarea name="" class="form-control" rows="4" id=""></textarea>
+                                            <textarea name="comments" class="form-control" rows="4" id=""></textarea>
                                         </div>
                                     </div>
 
-
+                                    <input type="text" id="totalPayAmount" name="pay_amount" >
                                 </div>
 
 
@@ -244,6 +265,7 @@
 
                         <!-- CART SECTION START -->
                         <div class="col-lg-5">
+                            @include('frontend.common.alert')
                             <h3>Your Order</h3>
 
                             <!-- CART START -->
@@ -359,8 +381,15 @@
                             <!-- APPOINTMENT DETAIL END-->
 
                             <div class="form-check my-3">
-                                <input type="radio" class="form-check-input" id="atFitting">
+                                <input type="radio" checked class="form-check-input" name="payment" value="ondelivery"
+                                    id="atFitting">
                                 <label for="atFitting">Pay at Fitting Time</label>
+                            </div>
+                            <div class="form-check my-3">
+                                <input type="radio" class="form-check-input" name="payment" value="stripe"
+                                    id="payOnline">
+                                <label for="payOnline">Pay
+                                    Now</label>
                             </div>
 
                             {{-- <div class="form-check my-3">
@@ -368,17 +397,131 @@
                                 <label for="terms">I have read and agree to the <a href="#">Terms & Conditions of
                                         Use</a></label>
                             </div> --}}
+
+
+
                             <div class="mt-4">
                                 @if (Auth::check())
-                                    <button class="main-btn">PROCEED TO BOOKING</button>
+                                    <div class="collapse" id="collapseExample">
+                                        <div class="card  credit-card-box">
+
+                                            <div class="card-header display-table">
+
+                                                <h5 class="card-title my-1">Payment Details</h5>
+
+                                            </div>
+
+                                            <div class="card-body">
+
+
+
+                                                @if (Session::has('success'))
+                                                    <div class="alert alert-success text-center">
+
+                                                        <a href="#" class="close" data-dismiss="alert"
+                                                            aria-label="close">×</a>
+
+                                                        <p>{{ Session::get('success') }}</p>
+
+                                                    </div>
+                                                @endif
+
+
+
+
+
+                                                <div class='row'>
+
+                                                    <div class='col-12 form-group required'>
+
+                                                        <label class='control-label'>Card Holder Name</label> <input
+                                                            class='form-control' size='4' type='text'>
+
+                                                    </div>
+
+                                                </div>
+
+
+
+                                                <div class='form-row row'>
+
+                                                    <div class='col-xs-12 form-group  required'>
+
+                                                        <label class='control-label'>Card Number</label> <input
+                                                            autocomplete='off' class='form-control card-number'
+                                                            size='20' type='text'>
+
+                                                    </div>
+
+                                                </div>
+
+
+
+                                                <div class='form-row row'>
+
+                                                    <div class='col-12 col-md-4 form-group cvc required'>
+
+                                                        <label class='control-label'>CVC</label> <input autocomplete='off'
+                                                            class='form-control card-cvc' placeholder='ex. 311'
+                                                            size='4' type='text'>
+
+                                                    </div>
+
+                                                    <div class='col-12 col-md-4 form-group expiration required'>
+
+                                                        <label class='control-label'>Exp. Mon.</label> <input
+                                                            class='form-control card-expiry-month' placeholder='MM'
+                                                            size='2' type='text'>
+
+                                                    </div>
+
+                                                    <div class='col-12 col-md-4 form-group expiration required'>
+
+                                                        <label class='control-label'>Exp. Year</label> <input
+                                                            class='form-control card-expiry-year' placeholder='YYYY'
+                                                            size='4' type='text'>
+
+                                                    </div>
+
+                                                </div>
+
+
+
+                                                <div class='form-row row mt-3'>
+                                                    <div class='col-md-12 error form-group hide d-none' id="error">
+
+                                                        <div class='alert-danger alert payment-alert'>Please correct the
+                                                            errors and
+                                                            try again.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="">
+
+                                                    <button class="main-btn w-100" type="submit">Pay Now
+                                                        <span id="totalPay"></span></button>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <button  id="onDeliveryBtn" class="main-btn ">PROCEED TO
+                                        BOOKING</button>
                                 @else
                                     <button type="button " class="main-btn "
                                         style="cursor: not-allowed; pointer-events: all; opacity: .7; ">Please Login to
                                         Continue</button>
                                 @endif
                             </div>
-
                         </div>
+
+
                         <!-- CART SECTION END -->
                     </div>
 
@@ -392,114 +535,108 @@
 
 
 
-        <!-- FOOTER SECTION START -->
-        <footer class="footer">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <h5>About TYRE ZONE Tyres</h5>
-                            <ul>
-                                <li><a href="#"><i class="fa-solid fa-angle-right"></i> About Us </a></li>
-                                <li><a href="#"><i class="fa-solid fa-angle-right"></i> Contact Us </a></li>
-                                <li><a href="#"><i class="fa-solid fa-angle-right"></i> Sitemap </a></li>
-                                <li><a href="#"><i class="fa-solid fa-angle-right"></i> Cookies </a></li>
-                                <li><a href="#"><i class="fa-solid fa-angle-right"></i> Privacy Policy </a></li>
-                                <li><a href="#"><i class="fa-solid fa-angle-right"></i> Cookies Policy </a></li>
-                            </ul>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <h5>Services</h5>
-                            <ul>
-                                <li><a href="#"><i class="fa-solid fa-angle-right"></i> Wheel Balancing</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="row">
-
-                        <div class="col-sm-6">
-                            <h5>Tyre Manufacturers</h5>
-                            <ul>
-                                <li><a href="#"><i class="fa-solid fa-angle-right"></i> Maxxis Tyres</a></li>
-                                <li><a href="#"><i class="fa-solid fa-angle-right"></i> Dunlop Tyres</a></li>
-                                <li><a href="#"><i class="fa-solid fa-angle-right"></i> Bridgestone Tyres</a></li>
-                                <li><a href="#"><i class="fa-solid fa-angle-right"></i> Continental Tyres</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <h5>Contact Us</h5>
-                            <ul>
-                                <li><a href="#">Contact Us
-                                        Unit 4 Church Street, Middleton Manchester M24 2PY, UK</a></li>
-                                <li><a href="#">Ph: 01616547756</a></li>
-                                <li><a href="#">Ph: 07899757543</a></li>
-                                <li><a href="#">
-                                        <p class="m-0">24/7 Open <a href="#">07899757543</a></p>
-                                    </a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-2">
-                    <h5>Social Media</h5>
-                    <ul class="social-icon list-unstyled d-flex flex-wrap">
-                        <li>
-                            <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                        </li>
-                    </ul>
-                    <p>Registered No: <strong>10544461</strong></p>
-                </div>
-
-
-            </div>
-
-
-            <div class="footer-bottom d-flex align-items-center justify-content-center flex-column">
-                <p class="mb-0">© TYRE ZONE TYRES LTD 2024. All Rights Reserved.</p>
-                <!-- <div class="d-flex align-items-center justify-content-center flex-wrap gap-1">
-                                                                                                                                                                                                        <div class="">
-                                                                                                                                                                                                            <img src="assets/imgs/payzone.png" alt="">
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="">
-                                                                                                                                                                                                            <img src="assets/imgs/Barclaycard_Logo.svg.png" alt="">
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="">
-                                                                                                                                                                                                            <img src="assets/imgs/mastercard.png" alt="">
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="">
-                                                                                                                                                                                                            <img src="assets/imgs/Visa-Logo-PNG-Image.png" alt="">
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="">
-                                                                                                                                                                                                            <img src="assets/imgs/ecard.png" alt="">
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="">
-                                                                                                                                                                                                            <img src="assets/imgs/maestro.png" alt="">
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="">
-                                                                                                                                                                                                            <img src="assets/imgs/apple-pay.png" alt="">
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                        <div class="">
-                                                                                                                                                                                                            <img src="assets/imgs/android-pay.png" alt="">
-                                                                                                                                                                                                        </div>
-                                                                                                                                                                                                    </div> -->
-            </div>
-
-        </footer>
-        <!-- FOOTER SECTION END -->
-
 
     </div>
+@endsection
+
+
+@section('customjs')
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+    <script>
+        // $("document").ready(function() {
+        //     $("#onDeliveryBtn").click(() => {
+        //        let cart = JSON.parse(localStorage.getItem("tyreZoneCart"));
+
+        //        if(cart != null){
+        //         $.ajax({
+        //             url: "{{ route("saveCart") }}",
+        //             type: "get", 
+        //             data: {"cart": cart},
+        //             dataType: "json",
+        //             success: function(res){
+        //                 console.log(res);
+        //             }
+        //         })
+        //        }
+               
+        //     })
+        // })
+
+
+
+
+        let payOnline = document.getElementById("payOnline");
+        let payAtFitting = document.getElementById("atFitting");
+
+        payOnline.addEventListener("click", function() {
+            document.getElementById("collapseExample").classList.add("show");
+            document.getElementById("onDeliveryBtn").classList.add("d-none");
+
+            /*------------------------------------------
+            --------------------------------------------
+            Stripe Payment Code
+            --------------------------------------------
+            --------------------------------------------*/
+
+            var $form = $(".require-validation");
+
+            $('form.require-validation').unbind('submit').bind('submit', function(e) {
+
+                var $form = $(".require-validation"),
+                    inputSelector = ['input[type=email]', 'input[type=password]',
+                        'input[type=text]', 'input[type=file]', 'textarea'
+                    ].join(', '),
+                    $inputs = $form.find('.required').find(inputSelector),
+                    $errorMessage = $form.find('div.error'),
+                    valid = true;
+
+                $errorMessage.addClass('hide');
+
+                $inputs.each(function(i, el) {
+                    var $input = $(el);
+                    if ($input.val() === '') {
+                        $input.addClass('is-invalid');
+                        $errorMessage.removeClass('hide');
+                        e.preventDefault();
+                    }
+                });
+
+                if (!$form.data('cc-on-file')) {
+                    e.preventDefault();
+                    Stripe.setPublishableKey($form.data('stripe-publishable-key'));
+                    Stripe.createToken({
+                        number: $('.card-number').val(),
+                        cvc: $('.card-cvc').val(),
+                        exp_month: $('.card-expiry-month').val(),
+                        exp_year: $('.card-expiry-year').val()
+                    }, stripeResponseHandler);
+                }
+            });
+
+            function stripeResponseHandler(status, response) {
+                if (response.error) {
+                    console.log(response.error.message);
+                    $('.error')
+                        .removeClass('d-none')
+                        .find('.alert')
+                        .text(response.error.message);
+                } else {
+                    var token = response['id'];
+                    $form.find('input[type=text]').empty();
+                    $form.append("<input type='hidden' name='stripeToken' value='" + token + "'/>");
+                    $form.get(0).submit();
+                }
+            }
+        });
+
+        payAtFitting.addEventListener("click", function() {
+            document.getElementById("collapseExample").classList.remove("show");
+            document.getElementById("onDeliveryBtn").classList.remove("d-none");
+
+            // Disable Stripe form validation when Pay at Fitting is selected
+            var $form = $(".require-validation");
+            $('form.require-validation').unbind('submit');
+        });
+    </script>
 @endsection

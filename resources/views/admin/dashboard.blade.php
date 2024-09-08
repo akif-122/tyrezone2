@@ -7,7 +7,7 @@
         <div class="row dashboard">
 
             <div class="col-xl col-md-4 px-1 col-sm-6 mb-3">
-                <a href="http://127.0.0.1:8000/admin/products">
+                <a href="{{ route("admin.products") }}">
                     <div class="dash-card">
                         <h4>Products</h4>
                         <h5>24</h5>
@@ -17,7 +17,7 @@
             </div>
 
             <div class="col-xl col-md-4 px-1 col-sm-6 mb-3">
-                <a href="http://127.0.0.1:8000/admin/tyre-pattren">
+                <a href="{{ route("admin.tyrePatteren") }}">
                     <div class="dash-card">
                         <h4>Patteren</h4>
                         <h5>18</h5>
@@ -28,7 +28,7 @@
             </div>
 
             <div class="col-xl col-md-4 px-1 col-sm-6 mb-3">
-                <a href="http://127.0.0.1:8000/manufacturers">
+                <a href="{{ route("admin.manufacturers") }}">
                     <div class="dash-card">
                         <h4>Manufacturers</h4>
                         <h5>8</h5>
@@ -37,7 +37,7 @@
                 </a>
             </div>
             <div class="col-xl col-md-4 px-1 col-sm-6 mb-3">
-                <a href="http://127.0.0.1:8000/admin/users">
+                <a href="{{ route("admin.users") }}">
                     <div class="dash-card">
                         <h4>Users</h4>
                         <h5>1</h5>
@@ -46,7 +46,7 @@
                 </a>
             </div>
             <div class="col-xl col-md-4 px-1 col-sm-6 mb-3">
-                <a href="#">
+                <a href="{{ route("admin.orders") }}">
                     <div class="dash-card">
                         <h4>Orders</h4>
                         <h5>45</h5>
