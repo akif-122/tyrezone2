@@ -101,6 +101,7 @@ class PaymentController extends Controller
 
                 $orderDetailId = OrderDetail::where("user_id", Auth::user()->id)->first();
 
+
                 $product_ids = $request->product_id;
                 $qtys = $request->qty;
 
@@ -149,7 +150,7 @@ class PaymentController extends Controller
                 }
 
                 $orderDetailId = OrderDetail::where("user_id", Auth::user()->id)->first();
-
+                
                 $product_ids = $request->product_id;
                 $qtys = $request->qty;
 
