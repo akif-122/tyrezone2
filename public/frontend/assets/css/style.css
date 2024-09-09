@@ -740,11 +740,49 @@ a {
     HERO SECTION START 
 ===============================================
 */
+
+.main-hero {
+  min-height: 100vh;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  padding-top: 100px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.bg-slider {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background-color: #000;
+  z-index: -1;
+}
+
+.bg-slider .bg-slide-img {
+  width: 100vw;
+  height: 130vh;
+  background-size: cover;
+  background-position: center right;
+
+
+}
+
+.bg-slider .bg-slide-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
 .hero-section {
   width: 100%;
   padding: 100px 10px 140px;
   display: flex;
   align-items: center;
+ 
 }
 
 .hero-section #myTab {
