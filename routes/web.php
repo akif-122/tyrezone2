@@ -4,14 +4,17 @@ use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\TyreSizeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\PatterenController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('frontend.index');
-})->name("home");
+
+Route::get("/", [HomeController::class, "index"])->name("home");
+
 
 Route::get("/manufacturers/{id}", [ManufacturerController::class, "manufacturer"])->name("manufacturers");
 
@@ -26,6 +29,18 @@ Route::view("/checkout", "frontend.checkout")->name("checkout");
 Route::view("/gallery", "frontend.gallery")->name("gallery");
 Route::view("/about", "frontend.about")->name("about");
 Route::view("/cart", "frontend.cart")->name("cart");
+// Route::view("/shop-detail", "frontend.shop-detail")->name("shop-detail");
+
+
+// SEARCH 
+Route::get("/search", [SearchController::class, "search"])->name("search");
+
+// SHOP
+Route::get("/shop", [ShopController::class, "index"])->name("shop");
+Route::get("/shop/detail/{id}", [ShopController::class, "shopDetail"])->name("shop-detail");
+Route::get("/shop/search", [ShopController::class, "search"])->name("shopSearch");
+
+
 
 Route::get("/save-cart", [PaymentController::class, "saveCart"])->name("saveCart");
 

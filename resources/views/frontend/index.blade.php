@@ -7,9 +7,11 @@
         <div class="main-hero">
             <!-- HERO BG SLIDER -->
             <div class="bg-slider owl-carousel owl-theme">
-                <div class="bg-slide-img slide1" style="background-image: url({{ asset("frontend/assets/imgs/hero-slides/Website-banner.jpg") }});">
+                <div class="bg-slide-img slide1"
+                    style="background-image: url({{ asset('frontend/assets/imgs/hero-slides/Website-banner.jpg') }});">
                 </div>
-                <div class="bg-slide-img slide2" style="background-image: url({{ asset("frontend/assets/imgs/hero-slides/Website-banner-2.jpg") }});">
+                <div class="bg-slide-img slide2"
+                    style="background-image: url({{ asset('frontend/assets/imgs/hero-slides/Website-banner-2.jpg') }});">
                 </div>
             </div>
             <!-- HERO BG SLIDER END -->
@@ -45,18 +47,20 @@
                                         <div class="size" style="height: auto;">
 
                                             <h4 class="">Find tyres by size</h4>
-                                            <form action="">
+                                            <form action="{{ route("search") }}">
                                                 <div class="row">
 
                                                     <div class="col-6 ">
                                                         <div class="form-group">
                                                             <label for="">Width</label>
-                                                            <select name="" id="" class="form-select">
-                                                                <option value="">155</option>
-                                                                <option value="">100</option>
-                                                                <option value="">205</option>
-                                                                <option value="">263</option>
-                                                                <option value="">22</option>
+                                                            <select name="width" id="" class="form-select">
+                                                                <option disabled selected>Select</option>
+                                                                @if ($sizes->isNotEmpty())
+                                                                    @foreach ($sizes as $size)
+                                                                        <option value="{{ $size->width }}">
+                                                                            {{ $size->width }}</option>
+                                                                    @endforeach
+                                                                @endif
                                                             </select>
                                                         </div>
                                                     </div>
@@ -64,12 +68,14 @@
                                                     <div class="col-6 ">
                                                         <div class="form-group">
                                                             <label for="">Profile</label>
-                                                            <select name="" id="" class="form-select">
-                                                                <option value="">155</option>
-                                                                <option value="">100</option>
-                                                                <option value="">205</option>
-                                                                <option value="">263</option>
-                                                                <option value="">22</option>
+                                                            <select name="profile" id="" required class="form-select">
+                                                                <option disabled selected>Select</option>
+                                                                @if ($sizes->isNotEmpty())
+                                                                    @foreach ($sizes as $size)
+                                                                        <option value="{{ $size->profile }}">
+                                                                            {{ $size->profile }}</option>
+                                                                    @endforeach
+                                                                @endif
                                                             </select>
                                                         </div>
                                                     </div>
@@ -77,12 +83,14 @@
                                                     <div class="col-6 ">
                                                         <div class="form-group">
                                                             <label for="">Rim Size</label>
-                                                            <select name="" id="" class="form-select">
-                                                                <option value="">155</option>
-                                                                <option value="">100</option>
-                                                                <option value="">205</option>
-                                                                <option value="">263</option>
-                                                                <option value="">22</option>
+                                                            <select name="rim_size" id="" class="form-select">
+                                                                <option disabled selected>Select</option>
+                                                                @if ($sizes->isNotEmpty())
+                                                                    @foreach ($sizes as $size)
+                                                                        <option value="{{ $size->rim_size }}">
+                                                                            {{ $size->rim_size }}</option>
+                                                                    @endforeach
+                                                                @endif
                                                             </select>
                                                         </div>
                                                     </div>
@@ -90,20 +98,21 @@
                                                     <div class="col-6 ">
                                                         <div class="form-group">
                                                             <label for="">Speed</label>
-                                                            <select name="" id="" class="form-select">
-                                                                <option value="">Any</option>
-                                                                <option value="">H</option>
-                                                                <option value="">T</option>
-                                                                <option value="">V</option>
-                                                                <option value="">W</option>
-                                                                <option value="">Y</option>
+                                                            <select name="speed" id="" class="form-select">
+                                                                 <option disabled selected>Select</option>
+                                                                @if ($sizes->isNotEmpty())
+                                                                    @foreach ($sizes as $size)
+                                                                        <option value="{{ $size->speed }}">
+                                                                            {{ $size->speed }}</option>
+                                                                    @endforeach
+                                                                @endif
                                                             </select>
                                                         </div>
                                                     </div>
 
                                                     <!-- <div class="col-lg-8 px-5 d-none d-md-block">
-                                                                <img src="assets/imgs/tyre.png" width="100%" alt="">
-                                                                -->
+                                                                                            <img src="assets/imgs/tyre.png" width="100%" alt="">
+                                                                                            -->
                                                     <div class="col-12  mt-3">
                                                         <button class="main-btn w-100">Search </button>
                                                     </div>
@@ -115,20 +124,20 @@
 
 
                                         <!-- <div class="d-flex justify-content-between align-items-center">
-                                                            <div class="d-flex flex-wrap radio">
-                                                                <div class="form-check ps-0 me-4">
-                                                                    <input type="radio" name="fit-opt" id="sgarage">
-                                                                    <label for="sgarage">Garage Fitted</label>
-                                                                </div>
+                                                                                        <div class="d-flex flex-wrap radio">
+                                                                                            <div class="form-check ps-0 me-4">
+                                                                                                <input type="radio" name="fit-opt" id="sgarage">
+                                                                                                <label for="sgarage">Garage Fitted</label>
+                                                                                            </div>
 
-                                                                <div class="form-check ps-0">
-                                                                    <input type="radio" name="fit-opt" id="smobile">
-                                                                    <label for="smobile">Mobile Fitted</label>
-                                                                </div>
+                                                                                            <div class="form-check ps-0">
+                                                                                                <input type="radio" name="fit-opt" id="smobile">
+                                                                                                <label for="smobile">Mobile Fitted</label>
+                                                                                            </div>
 
-                                                            </div>
-                                                            <button class="m-btn mt-3">Search</button>
-                                                        </div> -->
+                                                                                        </div>
+                                                                                        <button class="m-btn mt-3">Search</button>
+                                                                                    </div> -->
 
                                         </form>
                                     </div>
@@ -145,8 +154,7 @@
                                             <div class="number">
                                                 <h4>Enter your registration</h4>
 
-                                                <div
-                                                    class=" d-flex flex-column gap-2 flex-sm-row align-items-stretch mt-4">
+                                                <div class=" d-flex flex-column gap-2 flex-sm-row align-items-stretch mt-4">
                                                     <div class="input-wrap">
                                                         <input type="text" placeholder="VEHICLE REG.NO.">
                                                     </div>
@@ -166,125 +174,125 @@
                 </div>
                 <!-- <div class="row"> -->
                 <!-- <div class="col-md-9">
-                                    <div class="">
-                                        <h1>Tyres</h1>
-                                        <form action="">
-                                            <div class="">
-                                                <p>BY SIZE ____</p>
-                                                <div class="row">
+                                                                <div class="">
+                                                                    <h1>Tyres</h1>
+                                                                    <form action="">
+                                                                        <div class="">
+                                                                            <p>BY SIZE ____</p>
+                                                                            <div class="row">
 
-                                                    <div class="col-md-4 mb-3">
-                                                        <div class="form-group">
-                                                            <select name="" class="form-select" id="">
-                                                                <option value="">Diameter</option>
-                                                                <option>215</option>
-                                                                <option>225</option>
-                                                                <option>235</option>
-                                                                <option>245</option>
-                                                                <option>305</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                                                <div class="col-md-4 mb-3">
+                                                                                    <div class="form-group">
+                                                                                        <select name="" class="form-select" id="">
+                                                                                            <option value="">Diameter</option>
+                                                                                            <option>215</option>
+                                                                                            <option>225</option>
+                                                                                            <option>235</option>
+                                                                                            <option>245</option>
+                                                                                            <option>305</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
 
-                                                    <div class="col-md-4 mb-3">
-                                                        <div class="form-group">
-                                                            <select name="" class="form-select" id="">
-                                                                <option value="">Width</option>
-                                                                <option>215</option>
-                                                                <option>225</option>
-                                                                <option>235</option>
-                                                                <option>245</option>
-                                                                <option>305</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                                                <div class="col-md-4 mb-3">
+                                                                                    <div class="form-group">
+                                                                                        <select name="" class="form-select" id="">
+                                                                                            <option value="">Width</option>
+                                                                                            <option>215</option>
+                                                                                            <option>225</option>
+                                                                                            <option>235</option>
+                                                                                            <option>245</option>
+                                                                                            <option>305</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
 
-                                                    <div class="col-md-4 mb-3">
-                                                        <div class="form-group">
-                                                            <select name="" class="form-select" id="">
-                                                                <option value="">Rim</option>
-                                                                <option>215</option>
-                                                                <option>225</option>
-                                                                <option>235</option>
-                                                                <option>245</option>
-                                                                <option>305</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                                                <div class="col-md-4 mb-3">
+                                                                                    <div class="form-group">
+                                                                                        <select name="" class="form-select" id="">
+                                                                                            <option value="">Rim</option>
+                                                                                            <option>215</option>
+                                                                                            <option>225</option>
+                                                                                            <option>235</option>
+                                                                                            <option>245</option>
+                                                                                            <option>305</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
 
 
-                                                </div>
-                                            </div>
-                                            <div class="">
-                                                <div class="row">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="">
+                                                                            <div class="row">
 
-                                                    <div class="col-md-4 mb-3">
-                                                        <div class="form-group">
-                                                            <p>BY VEHICLE</p>
-                                                            <div class="row">
+                                                                                <div class="col-md-4 mb-3">
+                                                                                    <div class="form-group">
+                                                                                        <p>BY VEHICLE</p>
+                                                                                        <div class="row">
 
-                                                                <div class="col-6">
+                                                                                            <div class="col-6">
 
-                                                                    <select class="form-select">
-                                                                        <option value="">Make</option>
-                                                                        <option>Acura</option>
-                                                                        <option>BMW</option>
-                                                                        <option>Ferrari</option>
-                                                                        <option>Ford</option>
-                                                                    </select>
+                                                                                                <select class="form-select">
+                                                                                                    <option value="">Make</option>
+                                                                                                    <option>Acura</option>
+                                                                                                    <option>BMW</option>
+                                                                                                    <option>Ferrari</option>
+                                                                                                    <option>Ford</option>
+                                                                                                </select>
 
+                                                                                            </div>
+
+                                                                                            <div class="col-6">
+                                                                                                <select name="" class="form-select" id="">
+                                                                                                    <option value="">Model</option>
+                                                                                                    <option>2010</option>
+                                                                                                    <option>2012</option>
+                                                                                                    <option>2009</option>
+                                                                                                    <option>2014</option>
+                                                                                                    <option>2020</option>
+                                                                                                </select>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-md-4 mb-3">
+                                                                                    <div class="form-group">
+                                                                                        <p>BRAND _____</p>
+                                                                                        <select name="" class="form-select" id="">
+                                                                                            <option value="">Width</option>
+                                                                                            <option>Accelera</option>
+                                                                                            <option>Anchee</option>
+                                                                                            <option>Aoteli</option>
+                                                                                            <option>ATLAS</option>
+                                                                                            <option>Avon</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-md-4 mb-3">
+                                                                                    <div class="form-group">
+                                                                                        <p>TYPE ____</p>
+                                                                                        <select name="" class="form-select" id="">
+                                                                                            <option value="">Select</option>
+                                                                                            <option>Winter</option>
+                                                                                            <option>Summer</option>
+                                                                                            <option>All Season</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="text-end">
+                                                                            <button class="main-btn">Search</button>
+                                                                        </div>
+                                                                    </form>
                                                                 </div>
-
-                                                                <div class="col-6">
-                                                                    <select name="" class="form-select" id="">
-                                                                        <option value="">Model</option>
-                                                                        <option>2010</option>
-                                                                        <option>2012</option>
-                                                                        <option>2009</option>
-                                                                        <option>2014</option>
-                                                                        <option>2020</option>
-                                                                    </select>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-4 mb-3">
-                                                        <div class="form-group">
-                                                            <p>BRAND _____</p>
-                                                            <select name="" class="form-select" id="">
-                                                                <option value="">Width</option>
-                                                                <option>Accelera</option>
-                                                                <option>Anchee</option>
-                                                                <option>Aoteli</option>
-                                                                <option>ATLAS</option>
-                                                                <option>Avon</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-4 mb-3">
-                                                        <div class="form-group">
-                                                            <p>TYPE ____</p>
-                                                            <select name="" class="form-select" id="">
-                                                                <option value="">Select</option>
-                                                                <option>Winter</option>
-                                                                <option>Summer</option>
-                                                                <option>All Season</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-
-                                                </div>
-                                            </div>
-                                            <div class="text-end">
-                                                <button class="main-btn">Search</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div> -->
+                                                            </div> -->
 
 
 
@@ -540,8 +548,8 @@
                     <div class="col-md-6 col-lg-4 my-3">
                         <div class="recommended-card">
                             <!-- <div class="b-logo">
-                                        <img src="assets/imgs/continental-logo.webp" alt="">
-                                    </div> -->
+                                                                    <img src="assets/imgs/continental-logo.webp" alt="">
+                                                                </div> -->
 
                             <div class="card-img">
                                 <img src="{{ asset('frontend/assets/imgs/continental01.webp') }}" alt="">
@@ -1079,98 +1087,98 @@
 
                 <!-- <div class="reviews-wrap">
 
-                            <div class="review d-flex flex-column flex-lg-row">
-                                <div class="name">
-                                    <h6>Bilal Khan</h6>
-                                    <div class="stars">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </div>
+                                                        <div class="review d-flex flex-column flex-lg-row">
+                                                            <div class="name">
+                                                                <h6>Bilal Khan</h6>
+                                                                <div class="stars">
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                </div>
+                                                            </div>
 
-                                <div class="rev-text">
-                                    <p>Very good tyres at very good prices. I have been using this tyre garage for the past four
-                                        years and have always had a fast and professional service.</p>
-                                </div>
-                            </div>
+                                                            <div class="rev-text">
+                                                                <p>Very good tyres at very good prices. I have been using this tyre garage for the past four
+                                                                    years and have always had a fast and professional service.</p>
+                                                            </div>
+                                                        </div>
 
-                            <div class="review d-flex flex-column flex-lg-row">
-                                <div class="name">
-                                    <h6>Declan Smith</h6>
-                                    <div class="stars">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </div>
+                                                        <div class="review d-flex flex-column flex-lg-row">
+                                                            <div class="name">
+                                                                <h6>Declan Smith</h6>
+                                                                <div class="stars">
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                </div>
+                                                            </div>
 
-                                <div class="rev-text">
-                                    <p>Aways great service very quick and great prices. Highly recommend.</p>
-                                </div>
-                            </div>
+                                                            <div class="rev-text">
+                                                                <p>Aways great service very quick and great prices. Highly recommend.</p>
+                                                            </div>
+                                                        </div>
 
-                            <div class="review d-flex flex-column flex-lg-row">
-                                <div class="name">
-                                    <h6>Stavros Kollias</h6>
-                                    <div class="stars">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </div>
+                                                        <div class="review d-flex flex-column flex-lg-row">
+                                                            <div class="name">
+                                                                <h6>Stavros Kollias</h6>
+                                                                <div class="stars">
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                </div>
+                                                            </div>
 
-                                <div class="rev-text">
-                                    <p>Excellent service good quality! Second time visit for my Clio, since I found them, I will
-                                        be using their services all the time!.</p>
-                                </div>
-                            </div>
+                                                            <div class="rev-text">
+                                                                <p>Excellent service good quality! Second time visit for my Clio, since I found them, I will
+                                                                    be using their services all the time!.</p>
+                                                            </div>
+                                                        </div>
 
-                            <div class="review d-flex flex-column flex-lg-row">
-                                <div class="name">
-                                    <h6>Nitin Sharma</h6>
-                                    <div class="stars">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </div>
+                                                        <div class="review d-flex flex-column flex-lg-row">
+                                                            <div class="name">
+                                                                <h6>Nitin Sharma</h6>
+                                                                <div class="stars">
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                </div>
+                                                            </div>
 
-                                <div class="rev-text">
-                                    <p>Quick service within 15 min, they also provide 24×7 mobile service.</p>
-                                </div>
-                            </div>
+                                                            <div class="rev-text">
+                                                                <p>Quick service within 15 min, they also provide 24×7 mobile service.</p>
+                                                            </div>
+                                                        </div>
 
-                            <div class="review d-flex flex-column flex-lg-row">
-                                <div class="name">
-                                    <h6>Imran Butt</h6>
-                                    <div class="stars">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                    </div>
-                                </div>
+                                                        <div class="review d-flex flex-column flex-lg-row">
+                                                            <div class="name">
+                                                                <h6>Imran Butt</h6>
+                                                                <div class="stars">
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                    <i class="fa-solid fa-star"></i>
+                                                                </div>
+                                                            </div>
 
-                                <div class="rev-text">
-                                    <p>Great guys, very knowledgeable and great prices! Highly recommend.</p>
-                                </div>
-                            </div>
+                                                            <div class="rev-text">
+                                                                <p>Great guys, very knowledgeable and great prices! Highly recommend.</p>
+                                                            </div>
+                                                        </div>
 
 
-                        </div>
-                        <div class="text-center">
-                            <a href="#" class="rev-btn">See All Google Reviews</a>
-                        </div> -->
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <a href="#" class="rev-btn">See All Google Reviews</a>
+                                                    </div> -->
 
             </div>
         </section>
@@ -1255,31 +1263,31 @@
             <div class="footer-bottom d-flex align-items-center justify-content-center flex-column">
                 <p class="mb-0">© TYRE ZONE TYRES LTD 2024. All Rights Reserved.</p>
                 <!-- <div class="d-flex align-items-center justify-content-center flex-wrap gap-1">
-                            <div class="">
-                                <img src="assets/imgs/payzone.png" alt="">
-                            </div>
-                            <div class="">
-                                <img src="assets/imgs/Barclaycard_Logo.svg.png" alt="">
-                            </div>
-                            <div class="">
-                                <img src="assets/imgs/mastercard.png" alt="">
-                            </div>
-                            <div class="">
-                                <img src="assets/imgs/Visa-Logo-PNG-Image.png" alt="">
-                            </div>
-                            <div class="">
-                                <img src="assets/imgs/ecard.png" alt="">
-                            </div>
-                            <div class="">
-                                <img src="assets/imgs/maestro.png" alt="">
-                            </div>
-                            <div class="">
-                                <img src="assets/imgs/apple-pay.png" alt="">
-                            </div>
-                            <div class="">
-                                <img src="assets/imgs/android-pay.png" alt="">
-                            </div>
-                        </div> -->
+                                                        <div class="">
+                                                            <img src="assets/imgs/payzone.png" alt="">
+                                                        </div>
+                                                        <div class="">
+                                                            <img src="assets/imgs/Barclaycard_Logo.svg.png" alt="">
+                                                        </div>
+                                                        <div class="">
+                                                            <img src="assets/imgs/mastercard.png" alt="">
+                                                        </div>
+                                                        <div class="">
+                                                            <img src="assets/imgs/Visa-Logo-PNG-Image.png" alt="">
+                                                        </div>
+                                                        <div class="">
+                                                            <img src="assets/imgs/ecard.png" alt="">
+                                                        </div>
+                                                        <div class="">
+                                                            <img src="assets/imgs/maestro.png" alt="">
+                                                        </div>
+                                                        <div class="">
+                                                            <img src="assets/imgs/apple-pay.png" alt="">
+                                                        </div>
+                                                        <div class="">
+                                                            <img src="assets/imgs/android-pay.png" alt="">
+                                                        </div>
+                                                    </div> -->
             </div>
 
         </footer>

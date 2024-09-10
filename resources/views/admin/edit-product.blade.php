@@ -21,7 +21,8 @@
 
 
             <div class="form form-wrap sign-up-wrap mt-3 ">
-                <form action="{{ route('admin.updateProduct', ["id"=>$product->id]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.updateProduct', ['id' => $product->id]) }}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-4 mb-4">
@@ -49,7 +50,7 @@
                                     @if ($manufacturers->isNotEmpty())
                                         @foreach ($manufacturers as $manufacturer)
                                             <option value={{ $manufacturer->id }}
-                                                {{$product->manufacturer->id == $manufacturer->id ? 'selected' : '' }}>
+                                                {{ $product->manufacturer->id == $manufacturer->id ? 'selected' : '' }}>
                                                 {{ $manufacturer->name }}</option>
                                         @endforeach
                                     @endif
@@ -70,7 +71,7 @@
                                                 @foreach ($patterens as $patteren)
                                                     @if ($manufacturer->id == $patteren->manufacturer_id)
                                                         <option value="{{ $patteren->id }}"
-                                                            {{$product->patteren->id == $patteren->id ? 'selected' : '' }}>
+                                                            {{ $product->patteren->id == $patteren->id ? 'selected' : '' }}>
                                                             {{ $patteren->name }}</option>
                                                     @endif
                                                 @endforeach
@@ -108,6 +109,24 @@
                         </div>
 
                         <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <label for="">Tyre Size</label>
+                                <select name="tyre_size" class="form-select @error('tyre_size') is-invalid @enderror"
+                                    required="">
+                                    <option disabled selected>Select Size</option>
+                                    @foreach ($sizes as $size)
+                                        <option
+                                            value="{{ $size->width . '/' . $size->profile . ' R' . $size->rim_size . ' ' . $size->speed }}"
+                                            {{ ($product->tyre_size == $size->width . '/' . $size->profile . ' R' . $size->rim_size . ' ' . $size->speed) ? 'selected' : '' }}>
+                                            {{ $size->width . '/' . $size->profile . ' R' . $size->rim_size . ' ' . $size->speed }}
+                                        </option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+                        </div>
+
+                        {{-- <div class="col-md-4 mb-4">
                             <div class="form-group">
                                 <label for="">Width</label>
                                 <select name="width" class="form-select @error('width') is-invalid @enderror"
@@ -165,7 +184,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
@@ -183,7 +202,7 @@
                                     <label for="winter" class="form-check-label">Winter</label>
                                     <input type="radio"
                                         class="form-check-input @error('season_type') is-invalid @enderror"
-                                        name="season_type" {{  $product->season_type == '2' ? 'checked' : '' }}
+                                        name="season_type" {{ $product->season_type == '2' ? 'checked' : '' }}
                                         value="2" id="winter">
                                 </div>
 
@@ -221,6 +240,10 @@
                                 <input type="text" name="price" value="{{ $product->price }}"
                                     class="form-control @error('price') is-invalid @enderror" placeholder="Price">
                             </div>
+                        </div>
+
+                        <div class="col-12 mb-4">
+                            <textarea class="summernote" name="description"  cols="5"  placeholder="Benefits">{{$product->description }}</textarea>
                         </div>
 
                         <div class="col-12 text-center">

@@ -83,10 +83,10 @@
                 <button id="navClose" class="navClose d-block d-lg-none"><i
                         class="fa-regular fa-circle-xmark"></i></button>
                 <ul class="navbar-nav pt-4 pt-lg-0">
-                    <li><a href="{{ route('home') }}" class="active">Home</a></li>
+                    <li><a href="{{ route('home') }}" class="{{ Route::is("home") ? "active" : "" }}">Home</a></li>
 
                     <li class="dropdown mega-dropdown">
-                        <a href="#" data-bs-toggle="dropdown" class="dropdown-toggle">
+                        <a class="{{ Route::is("manufacturers") ? "active" : "" }}" href="#" data-bs-toggle="dropdown" class="dropdown-toggle">
                             TYRE MANUFACTURERS</a>
 
                         <div class="dropdown-menu mega-dropdown-menu">
@@ -95,8 +95,7 @@
                                     @foreach ($navManufactures as $manufucturer)
                                         @if (count($manufucturer->products) != 0)
                                             <div class="col-12">
-                                                <a
-                                                    href="{{ route('manufacturers', ['id' => $manufucturer->id]) }}">{{ $manufucturer->name }}</a>
+                                                <a  href="{{ route('manufacturers', ['id' => $manufucturer->id]) }}">{{ $manufucturer->name }}</a>
                                             </div>
                                         @endif
                                     @endforeach
@@ -108,7 +107,7 @@
                     </li>
 
                     <li class="dropdown mega-dropdown">
-                        <a href="#" data-bs-toggle="dropdown" class="dropdown-toggle">
+                        <a  href="#" data-bs-toggle="dropdown" class="dropdown-toggle">
                             Services</a>
 
                         <div class="dropdown-menu mega-dropdown-menu">
@@ -143,9 +142,10 @@
                         </div>
                     </li>
 
-                    <li><a href="{{ route('gallery') }}">Gallery</a></li>
-                    <li><a href="blogs.html">Blog</a></li>
-                    <li><a href="{{ route('about') }}">About</a></li>
+                    <li><a class="{{ Route::is("gallery") ? "active" : "" }}" href="{{ route('gallery') }}">Gallery</a></li>
+                    <li><a class="{{ Route::is("shop") ? "active" : "" }}" href="{{ route('shop') }}">Shop</a></li>
+                    {{-- <li><a href="blogs.html">Blog</a></li> --}}
+                    <li><a class="{{ Route::is("about") ? "active" : "" }}" href="{{ route('about') }}">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
 
 

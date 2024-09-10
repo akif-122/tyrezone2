@@ -133,7 +133,7 @@
                                 </td>
                                 {{-- <td>Dunlop</td>
                                 <td>ECONO DRIVE</td> --}}
-                                <td class="text-nowrap">{{ $order->product->width ."/". $order->product->profile ." R".$order->product->rim_size . " " . $order->product->speed }}</td>
+                                <td class="text-nowrap">{{ $order->product->tyre_size}}</td>
                                 <td>{{ $order->orderDetail->address }}</td>
                                 {{-- <td>
                                     24420 </td> --}}

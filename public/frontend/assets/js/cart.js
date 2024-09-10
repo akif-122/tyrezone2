@@ -1,6 +1,9 @@
 let cart = JSON.parse(localStorage.getItem("tyreZoneCart"));
 
 
+
+
+
 // IF CART IS EMPY
 function isCartEmpt() {
     let cart = JSON.parse(localStorage.getItem("tyreZoneCart"));

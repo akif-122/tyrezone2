@@ -69,7 +69,7 @@
                                                     <td>{{ $product->product->patteren->name }}</td>
 
                                                     
-                                                    <td>{{ $product->product->width ."/". $product->product->profile ." R" . $product->product->rim_size . " " . $product->product->speed  }}</td>
+                                                    <td>{{ $product->product->tyre_size}}</td>
                                                     <td>{{  $product->qty }}</td>
                                                     <td>{{ $product->product->price }}</td>
                                                     <td>{{ $product->payment_status }}</td>

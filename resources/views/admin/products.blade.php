@@ -30,7 +30,7 @@
                         <th>Size</th>
 
                         <th>Season</th>
-                        <th>Budget Tyre</th>
+                        {{-- <th>Budget Tyre</th> --}}
                         <th>Price</th>
                         <th>Actions</th>
                     </tr>
@@ -48,20 +48,28 @@
                                 <td>{{ $product->fuel_efficiency }}</td>
                                 <td>{{ $product->wet_grip }}</td>
                                 <td>{{ $product->road_noise }}</td>
-                                <td>
-                                    {{ $product->width . '/' . $product->profile . ' R' . $product->rim_size . ' ' . $product->speed }}
+                                <td class="text-nowrap">
+                                    {{ $product->tyre_size }}
                                 </td>
 
-                                <td>{{ $product->season_type }}</td>
                                 <td>
+                                    @if ($product->season_type == 1)
+                                        <i title="Summer" class=" h3 fa-solid fa-sun"></i>
+                                    @elseif($product->season_type == 2)
+                                        <i title="Winter" class=" h3 fa-regular fa-snowflake"></i>
+                                    @else
+                                        <i title="All Season" class=" h3 fa-brands fa-galactic-republic"></i>
+                                    @endif
+                                </td>
+                                {{-- <td>
                                     @if ($product->budget_tyre == 1)
                                         Yes
                                     @else
                                         No
                                     @endif
 
-                                </td>
-                                <td>$ {{ $product->price }}</td>
+                                </td> --}}
+                                <td class="text-nowrap">$ {{ $product->price }}</td>
                                 <td>
                                     <div class="last-btns">
 
@@ -89,17 +97,19 @@
 @endsection
 
 
-@section("customjs")
+@section('customjs')
     <script>
-        function deleteProduct(id){
-            if(confirm("Are you sure you want to delete?")){
+        function deleteProduct(id) {
+            if (confirm("Are you sure you want to delete?")) {
                 $.ajax({
-                    url : "{{ route("admin.deleteProduct") }}",
-                    type: "post", 
-                    data: {id},
+                    url: "{{ route('admin.deleteProduct') }}",
+                    type: "post",
+                    data: {
+                        id
+                    },
                     dataType: "json",
-                    success: function(res){
-                        if(res.status){
+                    success: function(res) {
+                        if (res.status) {
                             window.location.reload();
                         }
                     }

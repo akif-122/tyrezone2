@@ -86,7 +86,7 @@
                                                 <div class="tyre-detail ">
                                                     <h5>{{ $product->name }}
                                                         <span
-                                                            class="ms-4">{{ $product->width . '/' . $product->profile . ' R' . $product->rim_size . ' ' . $product->speed }}</span>
+                                                            class="ms-2">{{ $product->tyre_size}}</span>
                                                     </h5>
                                                 </div>
 

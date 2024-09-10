@@ -2148,7 +2148,7 @@ HERO BANNER SECTION START
   margin: auto;
 }
 
-.tyres .tyre-card .tyre-img {
+.tyres .tyre-card .card-body .tyre-img {
   max-width: 200px;
   height: 150px;
   margin-bottom: 20px;

@@ -210,7 +210,7 @@
                                         <div class="tyre-card">
                                             <div class="card-body border-0">
 
-                                                <div class="trye-img border-bottom mx-auto w-100">
+                                                <div class="tyre-img border-bottom mx-auto w-100">
                                                     <img src="{{ asset('uploads/products/' . $product->image) }}"
                                                         width="100%" alt="">
                                                 </div>

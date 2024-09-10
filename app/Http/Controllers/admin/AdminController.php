@@ -76,10 +76,11 @@ class AdminController extends Controller
             "fuel_efficiency" => "required",
             "wet_grip" => "required",
             "road_noise" => "required",
-            "width" => "required",
-            "profile" => "required",
-            "rim_size" => "required",
-            "speed" => "required",
+            "tyre_size" => "required",
+            // "width" => "required",
+            // "profile" => "required",
+            // "rim_size" => "required",
+            // "speed" => "required",
             "tyre_type" => "required",
             "season_type" => "required",
             "budget_tyre" => "required",
@@ -88,7 +89,6 @@ class AdminController extends Controller
         ]);
 
         if ($validator->passes()) {
-
             $image = $req->image;
             $ext =  $image->getClientOriginalExtension();
             $imageName = time() . "." . $ext;
@@ -101,14 +101,16 @@ class AdminController extends Controller
             $product->fuel_efficiency = $req->fuel_efficiency;
             $product->wet_grip = $req->wet_grip;
             $product->road_noise = $req->road_noise;
-            $product->width = $req->width;
-            $product->profile = $req->profile;
-            $product->rim_size = $req->rim_size;
-            $product->speed = $req->speed;
+            $product->tyre_size = $req->tyre_size;
+            // $product->width = $req->width;
+            // $product->profile = $req->profile;
+            // $product->rim_size = $req->rim_size;
+            // $product->speed = $req->speed;
             $product->tyre_type = $req->tyre_type;
             $product->season_type = $req->season_type;
             $product->budget_tyre = $req->budget_tyre;
             $product->price = $req->price;
+            $product->description = $req->description;
 
             $save = $product->save();
             if ($save) {
@@ -150,10 +152,11 @@ class AdminController extends Controller
             "fuel_efficiency" => "required",
             "wet_grip" => "required",
             "road_noise" => "required",
-            "width" => "required",
-            "profile" => "required",
-            "rim_size" => "required",
-            "speed" => "required",
+            "tyre_size" => "required",
+            // "width" => "required",
+            // "profile" => "required",
+            // "rim_size" => "required",
+            // "speed" => "required",
             "tyre_type" => "required",
             "season_type" => "required",
             "budget_tyre" => "required",
@@ -183,14 +186,16 @@ class AdminController extends Controller
             $product->fuel_efficiency = $req->fuel_efficiency;
             $product->wet_grip = $req->wet_grip;
             $product->road_noise = $req->road_noise;
-            $product->width = $req->width;
-            $product->profile = $req->profile;
-            $product->rim_size = $req->rim_size;
-            $product->speed = $req->speed;
+            $product->tyre_size = $req->tyre_size;
+            // $product->width = $req->width;
+            // $product->profile = $req->profile;
+            // $product->rim_size = $req->rim_size;
+            // $product->speed = $req->speed;
             $product->tyre_type = $req->tyre_type;
             $product->season_type = $req->season_type;
             $product->budget_tyre = $req->budget_tyre;
             $product->price = $req->price;
+            $product->description = $req->description;
 
             $save = $product->save();
 
