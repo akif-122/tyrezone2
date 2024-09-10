@@ -19,13 +19,21 @@ class SearchController extends Controller
 
         $qry = $req->width . "/" . $req->profile . " R" . $req->rim_size . " " . $req->speed;
         // return $qry;
-        $products = Product::where("tyre_size", "like", "% $qry %")->get();
+        $products=[];
+        $width = Product::where("tyre_size", "like", "%$req->width%")->where("tyre_size", "like", "%$req->profile%")->get();
+        // $profile = Product::where("tyre_size", "like", "%$req->profile%")->get();
+        // $rim = Product::where("tyre_size", "like", "%$req->rim_size%")->get();
+        // $speed = Product::where("tyre_size", "like", "%$req->speed%")->get();
         // $products = Product::where('tyre_size', 'like', '%' . $req->width . '%')
         //     ->where('tyre_size', 'like', '%' . $req->profile . '%')
         //     ->where('tyre_size', 'like', '% R' . $req->rim_size . '%')
         //     ->where('tyre_size', 'like', '%' . $req->speed . '%')
         //     ->get();
-        // return $products;
-        return view("frontend.search", ["sizes" => $sizes, "products" => $products]);
+        $products[] = $width;
+        // $products[] = $profile;
+        // $products[] = $rim;
+        // $products[] = $speed;
+        return $products[0];
+        return view("frontend.search", ["sizes" => $sizes, "products" => $products[0]]);
     }
 }
