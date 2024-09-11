@@ -4,9 +4,11 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Manufacturer;
+use App\Models\Order;
 use App\Models\Patteren;
 use App\Models\Product;
 use App\Models\Size;
+use App\Models\User;
 use Doctrine\Inflector\Rules\Pattern;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +41,20 @@ class AdminController extends Controller
     // SHOW ADMIN DASHBOARD
     function index()
     {
-        return view("admin.dashboard");
+
+        $products = Product::select("id")->get();
+        $manufacturers = Manufacturer::select("id")->get();
+        $patterens = Patteren::select("id")->get();
+        $users = User::select("id")->get();
+        $orders = Order::select("id")->get();
+        
+        return view("admin.dashboard", [
+            "products" => $products,
+            "manufacturers" => $manufacturers,
+            "patterens" => $patterens,
+            "users" => $users,
+            "orders" => $orders,
+        ]);
     }
 
     // SHOW ADMIN PRODUCT PAGE
@@ -68,6 +83,7 @@ class AdminController extends Controller
     // SAVE PRODUCT TO DATABSE
     function saveProduct(Request $req)
     {
+
         $validator = Validator::make($req->all(), [
             "name" => "required",
             "image" => "required|image",
@@ -91,11 +107,27 @@ class AdminController extends Controller
         if ($validator->passes()) {
             $image = $req->image;
             $ext =  $image->getClientOriginalExtension();
-            $imageName = time() . "." . $ext;
+            $imageName = "1_". time() . "." . $ext;
+
+            $imageName2 = "";
+            if ($req->image2 != null) {
+                $image2 = $req->image2;
+                $ext =  $image2->getClientOriginalExtension();
+                $imageName2 = "2_" . time() . "." . $ext;
+            }
+            $imageName3 = "";
+            if ($req->image3 != null) {
+                $image3 = $req->image3;
+                $ext =  $image3->getClientOriginalExtension();
+                $imageName3 = "3_" . time() . "." . $ext;
+            }
+
 
             $product = new Product();
             $product->name = $req->name;
             $product->image = $imageName;
+            $product->image2 = $imageName2;
+            $product->image3 = $imageName3;
             $product->manufacturer_id = $req->manufacturer_id;
             $product->patteren_id = $req->patteren_id;
             $product->fuel_efficiency = $req->fuel_efficiency;
@@ -115,6 +147,12 @@ class AdminController extends Controller
             $save = $product->save();
             if ($save) {
                 $image->move(public_path("uploads/products/"), $imageName);
+                if($req->image2 != null){
+                    $image2->move(public_path("uploads/products/"), $imageName2);
+                }
+                if($req->image3 != null){
+                    $image3->move(public_path("uploads/products/"), $imageName3);
+                }
                 return redirect()->route("admin.products")->with("success", "New Product Added Successfully!");
             }
         } else {
@@ -144,6 +182,7 @@ class AdminController extends Controller
     // UPDATE PRODUCT
     function updateProduct($id, Request $req)
     {
+        
         $validator = Validator::make($req->all(), [
             "name" => "required",
             "image" => "image",
@@ -170,16 +209,44 @@ class AdminController extends Controller
             if ($req->image != null) {
 
                 $oldProduct = Product::where("id", $id)->first();
-                File::delete(public_path("uploads/products/"). $oldProduct->image);
+                File::delete(public_path("uploads/products/") . $oldProduct->image);
                 $image = $req->image;
                 $ext =  $image->getClientOriginalExtension();
-                $imageName = time() . "." . $ext;
+                $imageName = "1_". time() . "." . $ext;
             }
+
+
+            $imageName2 = "";
+            if ($req->image2 != null) {
+                $oldProduct = Product::where("id", $id)->first();
+                File::delete(public_path("uploads/products/") . $oldProduct->image2);
+                $image2 = $req->image2;
+                $ext =  $image2->getClientOriginalExtension();
+                $imageName2 = "2_" . time() . "." . $ext;
+            }
+            $imageName3 = "";
+            if ($req->image3 != null) {
+                $oldProduct = Product::where("id", $id)->first();
+                File::delete(public_path("uploads/products/") . $oldProduct->image3);
+                $image3 = $req->image3;
+                $ext =  $image3->getClientOriginalExtension();
+                $imageName3 = "3_" . time() . "." . $ext;
+            }
+
 
             $product = Product::findOrFail($id);
             $product->name = $req->name;
+
             if ($req->image != null) {
                 $product->image = $imageName;
+            }
+
+            if ($req->image2 != null) {
+                $product->image2 = $imageName2;
+            }
+
+            if ($req->image3 != null) {
+                $product->image3 = $imageName3;
             }
             $product->manufacturer_id = $req->manufacturer_id;
             $product->patteren_id = $req->patteren_id;
@@ -201,6 +268,8 @@ class AdminController extends Controller
 
             if ($req->image != null) {
                 $image->move(public_path("uploads/products/"), $imageName);
+                $image2->move(public_path("uploads/products/"), $imageName2);
+                $image3->move(public_path("uploads/products/"), $imageName3);
             }
             return redirect()->route("admin.products")->with("success", " Product Updated Successfully!");
         } else {
@@ -209,25 +278,23 @@ class AdminController extends Controller
     }
 
     // DELETE PRODUCT
-    function deleteProduct(Request $req){
+    function deleteProduct(Request $req)
+    {
         $product = Product::findOrFail($req->id);
 
         $deleteProuduct = Product::where("id", $req->id)->delete();
 
-        if($deleteProuduct){
-            File::delete(public_path("uploads/products/"). $product->image);
+        if ($deleteProuduct) {
+            File::delete(public_path("uploads/products/") . $product->image);
+            File::delete(public_path("uploads/products/") . $product->image2);
+            File::delete(public_path("uploads/products/") . $product->image3);
             session()->flash("success", "Product deleted!");
             return response()->json([
-                "status"=>true
+                "status" => true
             ]);
-            
         }
-
-
-        
-
     }
-    
+
 
     // SHOW ADMIN MANUFACTURERS PAGE
     function manufacturers()
@@ -432,8 +499,4 @@ class AdminController extends Controller
     {
         return view("admin.edit-user");
     }
-
-
-
-   
 }

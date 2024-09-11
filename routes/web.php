@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\TyreSizeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManufacturerController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PatterenController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SearchController;
@@ -48,6 +49,12 @@ Route::group(["middleware" => "isLoggedIn"], function () {
     Route::get("/signup", [AuthController::class, "signup"])->name("signup");
     Route::post("/register", [AuthController::class, "register"])->name("register");
 
+    Route::get('password/reset', [PasswordResetController::class, 'showLinkRequestForm'])->name('password.request');
+    Route::post('password/email', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
+
+    Route::get('password/reset/{token}', [PasswordResetController::class, 'showResetForm'])->name('password.reset');
+    Route::post('password/reset', [PasswordResetController::class, 'resetPassword'])->name('password.update');
+
     Route::get("/login", [AuthController::class, "login"])->name("login");
     Route::post("/login-auth", [AuthController::class, "loginAuth"])->name("loginAuth");
 });
@@ -71,7 +78,7 @@ Route::group(["middleware" => "isAdmin"], function () {
         Route::get("dashboard", [AdminController::class, "index"])->name("admin.dashboard");
 
         // PRODUCTS
-        Route::get("products", [AdminController::class, "products"])->name("admin.products");
+        Route::get("product", [AdminController::class, "products"])->name("admin.products");
         Route::get("products/add", [AdminController::class, "addProduct"])->name("admin.addProduct");
         Route::post("products/save", [AdminController::class, "saveProduct"])->name("admin.saveProduct");
         Route::get("products/edit/{id}", [AdminController::class, "editProduct"])->name("admin.editProduct");

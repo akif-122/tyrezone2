@@ -10,7 +10,7 @@
                 <a href="{{ route("admin.products") }}">
                     <div class="dash-card">
                         <h4>Products</h4>
-                        <h5>24</h5>
+                        <h5>{{ $products->count() }}</h5>
                         <i class="fa-solid fa-box-archive"></i>
                     </div>
                 </a>
@@ -20,7 +20,7 @@
                 <a href="{{ route("admin.tyrePatteren") }}">
                     <div class="dash-card">
                         <h4>Patteren</h4>
-                        <h5>18</h5>
+                        <h5>{{ $patterens->count() }}</h5>
                         <i class="fa-solid fa-sliders"></i>
                     </div>
                 </a>
@@ -31,7 +31,7 @@
                 <a href="{{ route("admin.manufacturers") }}">
                     <div class="dash-card">
                         <h4>Manufacturers</h4>
-                        <h5>8</h5>
+                        <h5>{{ $manufacturers->count() }}</h5>
                         <i class="fa-solid fa-list"></i>
                     </div>
                 </a>
@@ -40,7 +40,7 @@
                 <a href="{{ route("admin.users") }}">
                     <div class="dash-card">
                         <h4>Users</h4>
-                        <h5>1</h5>
+                        <h5>{{ $users->count() }}</h5>
                         <i class="fa-solid fa-users"></i>
                     </div>
                 </a>
@@ -49,7 +49,7 @@
                 <a href="{{ route("admin.orders") }}">
                     <div class="dash-card">
                         <h4>Orders</h4>
-                        <h5>45</h5>
+                        <h5>{{ $orders->count() }}</h5>
                         <i class="fa-solid fa-cart-flatbed"></i>
                     </div>
                 </a>

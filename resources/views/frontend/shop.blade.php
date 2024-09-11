@@ -20,11 +20,16 @@
                                 @if ($products->isNotEmpty())
                                     @foreach ($products as $product)
                                         <div class="col-md-4 col-sm-6 px-2">
-                                            <a href="{{ route('shop-detail', ["id"=> $product->id]) }}">
-                                                <div class="product-card border">
-                                                    <div class="p-card-img">
+                                            <a href="{{ route('shop-detail', ['id' => $product->id]) }}">
+                                                <div class="product-card border ">
+                                                    <div class="p-card-img position-relative w-100">
                                                         <img src="{{ asset('uploads/products/' . $product->image) }}"
                                                             alt="" width="100%">
+
+                                                        <div class="text-center">
+                                                            <a href="{{ route('shop-detail', ['id' => $product->id]) }}"
+                                                                class="main-btn sm d-inline-block">Shop Now</a>
+                                                        </div>
                                                     </div>
 
                                                     <div class="product-cart-text">
@@ -40,10 +45,7 @@
                                                             longevity
                                                             for optimal driving.
                                                         </p>
-                                                        <div class="text-center">
-                                                            <a href="{{ route('shop-detail', ["id"=>$product->id]) }}"
-                                                                class="main-btn sm d-inline-block">Shop Now</a>
-                                                        </div>
+
                                                     </div>
 
                                                 </div>

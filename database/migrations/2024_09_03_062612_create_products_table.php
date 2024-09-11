@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->string("image");
+            $table->string("image2")->nullable();
+            $table->string("image3")->nullable();
             $table->string("manufacturer_id");
             $table->string("patteren_id");
             $table->string("fuel_efficiency");

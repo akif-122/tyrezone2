@@ -33,13 +33,6 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <label for="">Image:</label>
-                                <input type="file" name="image"
-                                    class="form-control @error('image') is-invalid @enderror" placeholder="Image URL">
-                            </div>
-                        </div>
 
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
@@ -117,7 +110,7 @@
                                     @foreach ($sizes as $size)
                                         <option
                                             value="{{ $size->width . '/' . $size->profile . ' R' . $size->rim_size . ' ' . $size->speed }}"
-                                            {{ ($product->tyre_size == $size->width . '/' . $size->profile . ' R' . $size->rim_size . ' ' . $size->speed) ? 'selected' : '' }}>
+                                            {{ $product->tyre_size == $size->width . '/' . $size->profile . ' R' . $size->rim_size . ' ' . $size->speed ? 'selected' : '' }}>
                                             {{ $size->width . '/' . $size->profile . ' R' . $size->rim_size . ' ' . $size->speed }}
                                         </option>
                                     @endforeach
@@ -195,6 +188,14 @@
                             </div>
                         </div>
 
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <label for="">Price:</label>
+                                <input type="text" name="price" value="{{ $product->price }}"
+                                    class="form-control @error('price') is-invalid @enderror" placeholder="Price">
+                            </div>
+                        </div>
+
                         <div class="col-md-5 mb-4">
                             <label for="">Season Type:</label>
                             <div class="">
@@ -234,16 +235,41 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4 mb-4">
+                        
+
+                        <div class="col-12">
                             <div class="form-group">
-                                <label for="">Price:</label>
-                                <input type="text" name="price" value="{{ $product->price }}"
-                                    class="form-control @error('price') is-invalid @enderror" placeholder="Price">
+
+                                <div class="row product-imgs">
+                                    <div class="col-4 mb-4">
+                                        <label for="">Image 1*:</label>
+                                        <input type="file" id="image1" name="image"
+                                            class="files form-control @error('image') is-invalid @enderror"
+                                            placeholder="Image URL">
+                                    </div>
+                                    <div class="col-4 mb-4">
+                                        <label for="">Image 2:</label>
+
+                                        <input type="file" id="image1" name="image2"
+                                            class="files form-control @error('image2') is-invalid @enderror"
+                                            placeholder="Image URL">
+                                    </div>
+                                    <div class="col-4 mb-4">
+                                        <label for="">Image 3:</label>
+
+                                        <input type="file" id="image1" name="image3"
+                                            class="files form-control @error('image3') is-invalid @enderror"
+                                            placeholder="Image URL">
+                                    </div>
+                                </div>
+
+
+
                             </div>
                         </div>
 
                         <div class="col-12 mb-4">
-                            <textarea class="summernote" name="description"  cols="5"  placeholder="Benefits">{{$product->description }}</textarea>
+                            <textarea class="summernote" name="description" cols="5" placeholder="Benefits">{{ $product->description }}</textarea>
                         </div>
 
                         <div class="col-12 text-center">

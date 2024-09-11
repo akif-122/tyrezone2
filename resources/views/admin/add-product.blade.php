@@ -28,13 +28,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <label for="">Image:</label>
-                                <input type="file" name="image"
-                                    class="form-control @error('image') is-invalid @enderror" placeholder="Image URL">
-                            </div>
-                        </div>
+
 
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
@@ -190,6 +184,14 @@
                             </div>
                         </div>
 
+                        <div class="col-md-4 mb-4">
+                            <div class="form-group">
+                                <label for="">Price:</label>
+                                <input type="text" name="price" value="{{ old('price') }}"
+                                    class="form-control @error('price') is-invalid @enderror" placeholder="Price">
+                            </div>
+                        </div>
+
                         <div class="col-md-5 mb-4">
                             <label for="">Season Type:</label>
                             <div class="">
@@ -213,8 +215,8 @@
                                     <label for="all" class="form-check-label ">All Season</label>
                                     <input type="radio"
                                         class="form-check-input @error('season_type') is-invalid @enderror"
-                                        name="season_type" {{ old('season_type') == '0' ? 'checked' : '' }}
-                                        value="0" id="all">
+                                        name="season_type" {{ old('season_type') == '0' ? 'checked' : '' }} value="0"
+                                        id="all">
                                 </div>
                             </div>
                         </div>
@@ -229,28 +231,51 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4 mb-4">
+                        
+                       
+
+                        <div class="col-md-12 mb-4 ">
                             <div class="form-group">
-                                <label for="">Price:</label>
-                                <input type="text" name="price" value="{{ old('price') }}"
-                                    class="form-control @error('price') is-invalid @enderror" placeholder="Price">
+                                
+                                <div class="row product-imgs">
+                                    <div class="col-4 mb-4">
+                                        <label for="">Image 1*:</label>
+                                        <input type="file" id="image1" name="image"
+                                            class="files form-control @error('image') is-invalid @enderror"
+                                            placeholder="Image URL">
+                                    </div>
+                                    <div class="col-4 mb-4">
+                                        <label for="">Image 2:</label>
+
+                                        <input type="file" id="image1" name="image2"
+                                            class="files form-control @error('image2') is-invalid @enderror"
+                                            placeholder="Image URL">
+                                    </div>
+                                    <div class="col-4 mb-4">
+                                        <label for="">Image 3:</label>
+
+                                        <input type="file" id="image1" name="image3"
+                                            class="files form-control @error('image3') is-invalid @enderror"
+                                            placeholder="Image URL">
+                                    </div>
+                                </div>
+
+                                
+                                
+                            </div>
+
+
+
+
+                            <div class="col-12 mb-4">
+                                <textarea class="summernote" name="description" cols="5" placeholder="Benefits">{{ old('description') }}</textarea>
+                            </div>
+
+
+                            <div class="col-12 text-center">
+                                <button class="main-btn sm">Add Product</button>
                             </div>
                         </div>
-                        <style>
-                            .summernote h1 {
-                                font-size: 12px !important;
-                            }
-                        </style>
-
-                        <div class="col-12 mb-4">
-                            <textarea class="summernote" name="description" cols="5" placeholder="Benefits">{{ old('description') }}</textarea>
-                        </div>
-
-
-                        <div class="col-12 text-center">
-                            <button class="main-btn sm">Add Product</button>
-                        </div>
-                    </div>
                 </form>
 
             </div>

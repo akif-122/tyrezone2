@@ -18,7 +18,7 @@
                     <div class="dash-card">
                         <h4>Total Orders
                         </h4>
-                        <h5>145</h5>
+                        <h5>{{ $orders->count() }}</h5>
                         <i class="fa-solid fa-shop"></i>
                     </div>
                 </a>
@@ -28,7 +28,7 @@
                 <a href="#">
                     <div class="dash-card">
                         <h4>Pending</h4>
-                        <h5>45</h5>
+                        <h5>{{ $pendingOrder->count() }}</h5>
                         <i class="fa-solid fa-clock-rotate-left"></i>
                     </div>
                 </a>
@@ -38,7 +38,7 @@
                 <a href="#">
                     <div class="dash-card">
                         <h4>Confirmed</h4>
-                        <h5>425</h5>
+                        <h5>{{ $confirmOrder->count() }}</h5>
                         <i class="fa-solid fa-clipboard-check"></i>
                     </div>
                 </a>
@@ -48,7 +48,7 @@
                 <a href="#">
                     <div class="dash-card">
                         <h4>Invalid</h4>
-                        <h5>5</h5>
+                        <h5>{{ $invalidOrder->count() }}</h5>
                         <i class="fa-solid fa-circle-xmark"></i>
                     </div>
                 </a>
@@ -58,7 +58,7 @@
                 <a href="#">
                     <div class="dash-card">
                         <h4>Rejected</h4>
-                        <h5>51</h5>
+                        <h5>{{ $rejectedOrder->count() }}</h5>
                         <i class="fa-solid fa-ban"></i>
                     </div>
                 </a>
@@ -68,7 +68,7 @@
                     <div class="dash-card">
                         <h4>Not Available
                         </h4>
-                        <h5>11</h5>
+                        <h5>{{ $notAvailableOrder->count() }}</h5>
                         <i class="fa-solid fa-cart-arrow-down"></i>
                     </div>
                 </a>
@@ -79,7 +79,7 @@
                     <div class="dash-card">
                         <h4>Delivered
                         </h4>
-                        <h5>1231</h5>
+                        <h5>{{ $deliveredOrder->count() }}</h5>
                         <i class="fa-solid fa-box"></i>
                     </div>
                 </a>
@@ -148,6 +148,7 @@
                                         <option value="Invalid" {{ ($order->order_status == "Invalid")? "selected" : "" }}>Invalid</option>
                                         <option value="Not Available" {{ ($order->order_status == "Not Available")? "selected" : "" }}>Not Available</option>
                                         <option value="Delivered" {{ ($order->order_status == "Delivered")? "selected" : "" }}>Delivered</option>
+                                        <option value="Rejected" {{ ($order->order_status == "Rejected")? "selected" : "" }}>Rejected</option>
                                     </select>
                                 </td>
 

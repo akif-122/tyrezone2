@@ -17,32 +17,44 @@
                         <div class="product-view ">
                             <div class="main-img d-flex ">
                                 <div class="p-img">
-                                    <img src="{{ asset('frontend/assets/imgs/shop/Bridgestone-Alenza-1.png') }}"
-                                        width="100%" alt="">
+                                    <img src="{{ asset('uploads/products/' . $product->image) }}" width="100%"
+                                        alt="">
                                 </div>
+                                @if ($product->image2 != null)
+                                    <div class="p-img">
+                                        <img src="{{ asset('uploads/products/' . $product->image2) }}" width="100%"
+                                            alt="">
+                                    </div>
+                                @endif
 
-                                <div class="p-img">
-                                    <img src="{{ asset('frontend/assets/imgs/shop/Bridgestone-Alenza-2.png') }}"
-                                        width="100%" alt="">
-                                </div>
-                                <p class="p-img">
-                                    <img src="{{ asset('frontend/assets/imgs/shop/Bridgestone-Alenza-3.png') }}"
-                                        width="100%" alt="">
-                                </p>
+
+                                @if ($product->image3 != null)
+                                    <div class="p-img">
+                                        <img src="{{ asset('uploads/products/' . $product->image3) }}" width="100%"
+                                            alt="">
+                                    </div>
+                                @endif
                             </div>
                             <div class="img-filter d-flex align-items-center justify-content-around">
                                 <div class="filter active" data-filter="1">
-                                    <img src="{{ asset('frontend/assets/imgs/shop/Bridgestone-Alenza-1.png') }}"
-                                        width="100px" alt="">
+                                    <img src="{{ asset('uploads/products/' . $product->image) }}" width="100px"
+                                        alt="">
                                 </div>
-                                <div class="filter" data-filter="2">
-                                    <img src="{{ asset('frontend/assets/imgs/shop/Bridgestone-Alenza-2.png') }}"
-                                        width="100px" alt="">
-                                </div>
-                                <div class="filter" data-filter="3">
-                                    <img src="{{ asset('frontend/assets/imgs/shop/Bridgestone-Alenza-3.png') }}"
-                                        width="100px" alt="">
-                                </div>
+
+                                @if ($product->image2 != null)
+                                    <div class="filter" data-filter="2">
+                                        <img src="{{ asset('uploads/products/' . $product->image2) }}" width="100px"
+                                            alt="">
+                                    </div>
+                                @endif
+
+                                @if ($product->image3 != null)
+                                    <div class="filter" data-filter="3">
+                                        <img src="{{ asset('uploads/products/' . $product->image3) }}" width="100px"
+                                            alt="">
+                                    </div>
+                                @endif
+
                             </div>
                         </div>
                     </div>
@@ -56,8 +68,10 @@
                             <h5 class="price">$ 300.00</h5>
 
                             <div class="btns d-flex gap-3 my-4">
-                                <button class="main-btn rounded-0 py-2 btn-outline">Add To Cart </button>
-                                <button class="main-btn rounded-0 py-2">Buy Now </button>
+                                <button onclick="addToCart({{ $product }})"
+                                    class="main-btn rounded-0 py-2 btn-outline">Add To Cart </button>
+                                <button onclick="addToCart({{ $product }}, true)" class="main-btn rounded-0 py-2">Buy
+                                    Now </button>
                             </div>
 
                             <div class="tyre-detail pt-3">
@@ -134,10 +148,10 @@
                                 @if ($relatedProducts->isNotEmpty())
                                     @foreach ($relatedProducts as $relatedProduct)
                                         <div class="col-lg-3 col-sm-6 px-2">
-                                            <a  href="{{ route('shop-detail', ['id' => $relatedProduct->id]) }}">
+                                            <a href="{{ route('shop-detail', ['id' => $relatedProduct->id]) }}">
                                                 <div class="product-card border">
                                                     <div class="p-card-img">
-                                                        <img src="{{ asset('uploads/products/'. $relatedProduct->image) }}"
+                                                        <img src="{{ asset('uploads/products/' . $relatedProduct->image) }}"
                                                             alt="" width="100%">
                                                     </div>
 
@@ -210,4 +224,47 @@
         @include('frontend.includes.footer')
 
     </div>
+@endsection
+
+@section('customjs')
+    <script>
+        function addToCart(pname, buyNow = false) {
+            let product = pname;
+            product.qty = 1;
+
+
+
+            let cart = JSON.parse(localStorage.getItem("tyreZoneCart"));
+            let isInCart = cart.findIndex((value) => value.id == product.id);
+
+            if (isInCart < 0) {
+                cart.push({
+                    ...product
+                });
+            } else {
+                if (buyNow) {
+
+                    window.location.href = '{{ route('checkout') }}';
+                } else {
+                    alert("Item already added in your  cart!")
+                    return
+                }
+                // cart[isInCart].qty = cart[isInCart].qty + 1;
+            }
+
+            localStorage.setItem("tyreZoneCart", JSON.stringify(cart));
+            cartLength();
+            callData();
+
+            if (buyNow) {
+
+                window.location.href = '{{ route('checkout') }}';
+            } else {
+                window.location.href = '{{ route('cart') }}';
+
+            }
+            // localStorage.setItem("tyreZoneCart", [...cart, product])
+
+        }
+    </script>
 @endsection

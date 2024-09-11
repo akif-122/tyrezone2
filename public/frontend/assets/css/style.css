@@ -3515,18 +3515,24 @@ HERO BANNER SECTION START
   border-radius: 4px;
   margin-bottom: 15px;
   overflow: hidden;
+  background-color: #f3f3f3;
   position: relative;
+}
+.shop .shop-content .product-card .p-card-img{
+  overflow: hidden;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .shop .shop-content .product-card .main-btn {
   position: absolute;
-  top: -10%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 100%;
+  left: 0;
+  bottom:-20%;
+  border-radius: 0;
 }
 
 .shop .shop-content .product-card:hover .main-btn {
-  top: 50%;
+  bottom: 0%;
 }
 
 .shop .shop-content .product-card .product-cart-text {
