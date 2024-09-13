@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\StripeSetting;
 use App\Models\User;
 use Illuminate\Contracts\Session\Session as SessionSession;
 use Illuminate\Http\Request;
@@ -28,10 +29,10 @@ class PaymentController extends Controller
     }
 
 
-    public function stripe()
+    public function checkout()
     {
-
-        return view('frontend.stripe');
+        $settings = StripeSetting::first();
+        return view('frontend.checkout', ['stripe_publishable_key' => $settings->stripe_publishable_key]);
     }
 
     public function stripePost(Request $request)
@@ -62,7 +63,11 @@ class PaymentController extends Controller
             if ($request->payment == "stripe") {
 
 
-                Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+                $settings = StripeSetting::first();
+                if ($settings) {
+                    \Stripe\Stripe::setApiKey($settings->stripe_secret_key);
+                }
+                // Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
 
 

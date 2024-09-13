@@ -57,6 +57,11 @@ class AdminController extends Controller
         ]);
     }
 
+    function profile(){
+        return view("admin.profile");
+    }
+    
+
     // SHOW ADMIN PRODUCT PAGE
     function products()
     {

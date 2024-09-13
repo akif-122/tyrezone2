@@ -11,6 +11,8 @@ use App\Http\Controllers\PatterenController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\SmtpSettingsController;
+use App\Http\Controllers\StripeSettingController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -26,12 +28,12 @@ Route::get("/tyre-patteren/{m_id}/{id}", [PatterenController::class, "index"])->
 
 
 Route::view("/booking", "frontend.booking")->name("booking");
-Route::view("/checkout", "frontend.checkout")->name("checkout");
 Route::view("/gallery", "frontend.gallery")->name("gallery");
 Route::view("/about", "frontend.about")->name("about");
 Route::view("/cart", "frontend.cart")->name("cart");
 // Route::view("/shop-detail", "frontend.shop-detail")->name("shop-detail");
 
+Route::get("/checkout", [PaymentController::class, "checkout"] )->name("checkout");
 
 // SEARCH 
 Route::get("/search", [SearchController::class, "search"])->name("search");
@@ -76,6 +78,14 @@ Route::post("/admin/auth", [AdminController::class, "adminAuth"])->name("admin.a
 Route::group(["middleware" => "isAdmin"], function () {
     Route::group(["prefix" => "admin"], function () {
         Route::get("dashboard", [AdminController::class, "index"])->name("admin.dashboard");
+        Route::get("profile", [AdminController::class, "profile"])->name("admin.profile");
+
+        // SMTP
+        Route::post('/admin/smtp/update', [SmtpSettingsController::class, 'update'])->name('admin.smtp.update');
+        // Route::post("admin/smtp/update", [])
+
+        // STIPE KEY
+        Route::post('stripe-settings', [StripeSettingController::class, 'update'])->name('admin.stripe_setting.update');
 
         // PRODUCTS
         Route::get("product", [AdminController::class, "products"])->name("admin.products");
