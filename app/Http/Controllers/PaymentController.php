@@ -59,6 +59,7 @@ class PaymentController extends Controller
         if ($validator->passes()) {
 
 
+            $order_id = Auth::user()->id . time();
 
             if ($request->payment == "stripe") {
 
@@ -83,26 +84,26 @@ class PaymentController extends Controller
 
                 ]);
 
-                $orderDetail = OrderDetail::where("user_id", Auth::user()->id);
-                if (!$orderDetail) {
+                
+                
 
+                $orderDetail = new OrderDetail();
+                $orderDetail->fname = $request->fname;
+                $orderDetail->lname = $request->lname;
+                $orderDetail->email = $request->email;
+                $orderDetail->user_id = Auth::user()->id;
+                $orderDetail->order_id = $order_id;
+                $orderDetail->phone = $request->phone;
+                $orderDetail->reg_no = $request->reg_no;
+                $orderDetail->post_code = $request->post_code;
+                $orderDetail->company = $request->company;
+                $orderDetail->address = $request->address;
+                $orderDetail->city = $request->city;
+                $orderDetail->state = $request->state;
+                $orderDetail->country = $request->country;
+                $orderDetail->comments = $request->comments;
+                $orderDetail->save();
 
-                    $orderDetail = new OrderDetail();
-                    $orderDetail->fname = $request->fname;
-                    $orderDetail->lname = $request->lname;
-                    $orderDetail->email = $request->email;
-                    $orderDetail->user_id = Auth::user()->id;
-                    $orderDetail->phone = $request->phone;
-                    $orderDetail->reg_no = $request->reg_no;
-                    $orderDetail->post_code = $request->post_code;
-                    $orderDetail->company = $request->company;
-                    $orderDetail->address = $request->address;
-                    $orderDetail->city = $request->city;
-                    $orderDetail->state = $request->state;
-                    $orderDetail->country = $request->country;
-                    $orderDetail->comments = $request->comments;
-                    $orderDetail->save();
-                }
 
                 $orderDetailId = OrderDetail::where("user_id", Auth::user()->id)->first();
 
@@ -112,6 +113,7 @@ class PaymentController extends Controller
                 $products = [];
                 foreach ($product_ids as $index => $product_id) {
                     $products[] = [
+                        "order_id" => $order_id,
                         "product_id" => $product_id,
                         "qty" => $qtys[$index],
                         "user_id" => Auth::user()->id,
@@ -121,37 +123,35 @@ class PaymentController extends Controller
                         "total_price" => $request->pay_amount,
                     ];
                 }
+                session(["order_id" => $order_id]);
 
                 DB::table('orders')->insert($products);
 
                 session()->flash('success', 'Payment Online successful!');
                 session()->flash('success', "Pay Online");
                 return redirect()->route("thanks");
-
             } else {
 
 
 
-                $orderDetail = OrderDetail::where("user_id", Auth::user()->id)->first();
-                if (!$orderDetail) {
 
 
-                    $orderDetail = new OrderDetail();
-                    $orderDetail->fname = $request->fname;
-                    $orderDetail->lname = $request->lname;
-                    $orderDetail->email = $request->email;
-                    $orderDetail->user_id = Auth::user()->id;
-                    $orderDetail->phone = $request->phone;
-                    $orderDetail->reg_no = $request->reg_no;
-                    $orderDetail->post_code = $request->post_code;
-                    $orderDetail->company = $request->company;
-                    $orderDetail->address = $request->address;
-                    $orderDetail->city = $request->city;
-                    $orderDetail->state = $request->state;
-                    $orderDetail->country = $request->country;
-                    $orderDetail->comments = $request->comments;
-                    $orderDetail->save();
-                }
+                $orderDetail = new OrderDetail();
+                $orderDetail->fname = $request->fname;
+                $orderDetail->lname = $request->lname;
+                $orderDetail->email = $request->email;
+                $orderDetail->user_id = Auth::user()->id;
+                $orderDetail->order_id = $order_id;
+                $orderDetail->phone = $request->phone;
+                $orderDetail->reg_no = $request->reg_no;
+                $orderDetail->post_code = $request->post_code;
+                $orderDetail->company = $request->company;
+                $orderDetail->address = $request->address;
+                $orderDetail->city = $request->city;
+                $orderDetail->state = $request->state;
+                $orderDetail->country = $request->country;
+                $orderDetail->comments = $request->comments;
+                $orderDetail->save();
 
                 $orderDetailId = OrderDetail::where("user_id", Auth::user()->id)->first();
 
@@ -161,6 +161,7 @@ class PaymentController extends Controller
                 $products = [];
                 foreach ($product_ids as $index => $product_id) {
                     $products[] = [
+                        "order_id" => $order_id,
                         "product_id" => $product_id,
                         "qty" => $qtys[$index],
                         "user_id" => Auth::user()->id,
@@ -170,7 +171,7 @@ class PaymentController extends Controller
                         "total_price" => $request->pay_amount,
                     ];
                 }
-
+                session(["order_id" => $order_id]);
                 DB::table('orders')->insert($products);
 
                 session()->flash('success', "Pay Delivery");
@@ -192,10 +193,11 @@ class PaymentController extends Controller
     }
 
 
-    function thanks(){
-        $products = Order::where(["user_id"=> Auth::user()->id, "order_status"=> "pending"])->with("product", "product.manufacturer", "product.patteren")->get();
-       
-        
-        return view("frontend.thanks-page", ["orders"=> $products]);
+    function thanks()
+    {
+        $orderId =  session("order_id");
+        $orderDetail = Order::where("order_id", $orderId)->with("product")->get();
+        session()->forget("order_id");
+        return view("frontend.thanks-page", ["orders" => $orderDetail]);
     }
 }

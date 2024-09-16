@@ -114,7 +114,10 @@ Route::group(["middleware" => "isAdmin"], function () {
         // USERS
         Route::get("users", [AdminController::class, "users"])->name("admin.users");
         Route::get("users/add", [AdminController::class, "addUser"])->name("admin.addUser");
+        Route::post("users/add/save", [AdminController::class, "saveUser"])->name("admin.saveUser");
         Route::get("users/edit/{id}", [AdminController::class, "editUser"])->name("admin.editUser");
+        Route::post("users/edit/update", [AdminController::class, "updateUser"])->name("admin.updateUser");
+        Route::post("users/delete", [AdminController::class, "deleteUser"])->name("admin.deleteUser");
 
         // TYRE SIZES 
         Route::get("/tyre-sizes", [TyreSizeController::class, "index"])->name("admin.tyreSize");

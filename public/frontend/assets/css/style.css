@@ -280,6 +280,7 @@ a {
 
 .side-cart .item-detail {
   padding-left: 14px;
+  width: 100%;
 }
 
 .side-cart .item-detail p.title {

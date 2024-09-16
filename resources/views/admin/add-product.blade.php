@@ -115,65 +115,47 @@
                             </div>
                         </div>
 
-                        {{-- <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <label for="">Width</label>
-                                <select name="width" class="form-select @error('width') is-invalid @enderror"
-                                    required="">
-                                    <option disabled selected>Select Width</option>
-                                    @foreach ($sizes as $size)
-                                        <option value="{{ $size->width }}"
-                                            {{ old('width') == $size->width ? 'selected' : '' }}>{{ $size->width }}
-                                        </option>
-                                    @endforeach
-
-                                </select>
+                        <div class="col-md-4 mb-4">
+                            <div class="row g-2">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <label for="">Width</label>
+                                        <input class="form-control @error('width') is-invalid @enderror" type="text" placeholder="Width" name="width"
+                                            id="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <label for="">Profile</label>
+                                        <input class="form-control @error('profile') is-invalid @enderror" type="text" placeholder="Profile" name="profile"
+                                            id="">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <label for="">Profile</label>
-                                <select name="profile" class="form-select @error('profile') is-invalid @enderror"
-                                    required="">
-                                    <option disabled selected>Select Profile</option>
-                                    @foreach ($sizes as $size)
-                                        <option value="{{ $size->profile }}"
-                                            {{ old('profile') == $size->profile ? 'selected' : '' }}>
-                                            {{ $size->profile }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <label for="">Rim Size</label>
-                                <select name="rim_size" class="form-select @error('rim_size') is-invalid @enderror"
-                                    required="">
-                                    <option disabled selected>Select Rim Size</option>
-                                    @foreach ($sizes as $size)
-                                        <option value="{{ $size->rim_size }}"
-                                            {{ old('rim_size') == $size->rim_size ? 'selected' : '' }}>
-                                            {{ $size->rim_size }}</option>
-                                    @endforeach
 
-                                </select>
+                         <div class="col-md-4 mb-4">
+                            <div class="row g-2">
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <label for="">Rim Size</label>
+                                        <input class="form-control @error('rim_size') is-invalid @enderror" type="text" placeholder="Rim Size" name="rim_size"
+                                            id="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="form-group">
+                                        <label for="">Speed</label>
+                                        <input class="form-control @error('speed') is-invalid @enderror" type="text" placeholder="Speed" name="speed"
+                                            id="">
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
 
-                        <div class="col-md-4 mb-4">
-                            <div class="form-group">
-                                <label for="">Speed</label>
-                                <select name="speed" class="form-select @error('speed') is-invalid @enderror">
-                                    <option disabled selected>Select Speed</option>
-                                    @foreach ($sizes as $size)
-                                        <option value="{{ $size->speed }}"
-                                            {{ old('speed') == $size->speed ? 'selected' : '' }}>{{ $size->speed }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div> --}}
+
+                     
 
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
@@ -199,24 +181,24 @@
                                     <label for="winter" class="form-check-label">Winter</label>
                                     <input type="radio"
                                         class="form-check-input @error('season_type') is-invalid @enderror"
-                                        name="season_type" {{ old('season_type') == '2' ? 'checked' : '' }} value="2"
-                                        id="winter">
+                                        name="season_type" {{ old('season_type') == '2' ? 'checked' : '' }}
+                                        value="2" id="winter">
                                 </div>
 
                                 <div class="form-check form-check-inline mt-2">
                                     <label for="summer" class="form-check-label">Summer</label>
                                     <input type="radio"
                                         class="form-check-input @error('season_type') is-invalid @enderror"
-                                        name="season_type" {{ old('season_type') == '1' ? 'checked' : '' }} value="1"
-                                        id="summer">
+                                        name="season_type" {{ old('season_type') == '1' ? 'checked' : '' }}
+                                        value="1" id="summer">
                                 </div>
 
                                 <div class="form-check form-check-inline mt-2">
                                     <label for="all" class="form-check-label ">All Season</label>
                                     <input type="radio"
                                         class="form-check-input @error('season_type') is-invalid @enderror"
-                                        name="season_type" {{ old('season_type') == '0' ? 'checked' : '' }} value="0"
-                                        id="all">
+                                        name="season_type" {{ old('season_type') == '0' ? 'checked' : '' }}
+                                        value="0" id="all">
                                 </div>
                             </div>
                         </div>
@@ -231,12 +213,12 @@
                             </div>
                         </div>
 
-                        
-                       
+
+
 
                         <div class="col-md-12 mb-4 ">
                             <div class="form-group">
-                                
+
                                 <div class="row product-imgs">
                                     <div class="col-4 mb-4">
                                         <label for="">Image 1*:</label>
@@ -260,8 +242,8 @@
                                     </div>
                                 </div>
 
-                                
-                                
+
+
                             </div>
 
 

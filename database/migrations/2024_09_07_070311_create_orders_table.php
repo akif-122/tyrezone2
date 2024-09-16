@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("product_id");
             $table->string("user_id");
+            $table->string("order_id");
             $table->string("order_detail_id");
             $table->string("qty");
             $table->string("payment_status");

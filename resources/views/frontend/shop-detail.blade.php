@@ -82,31 +82,31 @@
                                                 <tr>
                                                     <td>Tyre Size</td>
                                                     <td class="text-end">
-                                                        <span>215/60 R17</span>
+                                                        <span>{{ $product->tyre_size }}</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Rim Size</td>
                                                     <td class="text-end">
-                                                        <span>17 Inches</span>
+                                                        <span>{{ $product->rim_size }} Inches</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Tyre Width</td>
                                                     <td class="text-end">
-                                                        <span>215 mm</span>
+                                                        <span>{{ $product->width }} mm</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Tyre Aspect Ratio (Height)</td>
                                                     <td class="text-end">
-                                                        <span>60 %</span>
+                                                        <span>{{ $product->profile }} %</span>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Pattern Name</td>
                                                     <td class="text-end">
-                                                        <span>Alenza</span>
+                                                        <span>{{ $product->patteren->name }}</span>
                                                     </td>
                                                 </tr>
 
@@ -147,12 +147,17 @@
                             <div class="row">
                                 @if ($relatedProducts->isNotEmpty())
                                     @foreach ($relatedProducts as $relatedProduct)
-                                        <div class="col-lg-3 col-sm-6 px-2">
+                                     <div class="col-lg-3 col-sm-6 px-2">
                                             <a href="{{ route('shop-detail', ['id' => $relatedProduct->id]) }}">
-                                                <div class="product-card border">
-                                                    <div class="p-card-img">
+                                                <div class="product-card border ">
+                                                    <div class="p-card-img position-relative w-100">
                                                         <img src="{{ asset('uploads/products/' . $relatedProduct->image) }}"
                                                             alt="" width="100%">
+
+                                                        <div class="text-center">
+                                                            <a href="{{ route('shop-detail', ['id' => $relatedProduct->id]) }}"
+                                                                class="main-btn sm d-inline-block">Shop Now</a>
+                                                        </div>
                                                     </div>
 
                                                     <div class="product-cart-text">
@@ -168,16 +173,15 @@
                                                             longevity
                                                             for optimal driving.
                                                         </p>
-                                                        <div class="text-center">
-                                                            <a href="{{ route('shop-detail', ['id' => $relatedProduct->id]) }}"
-                                                                class="main-btn sm d-inline-block">Shop
-                                                                Now</a>
-                                                        </div>
+
                                                     </div>
 
                                                 </div>
                                             </a>
+
                                         </div>
+                                    
+                                      
                                     @endforeach
                                 @endif
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("lname");
             $table->string("email");
             $table->string("user_id");
+            $table->string("order_id");
             $table->string("phone");
             $table->string("reg_no");
             $table->string("post_code");

@@ -33,7 +33,7 @@ class SearchController extends Controller
         // $products[] = $profile;
         // $products[] = $rim;
         // $products[] = $speed;
-        return $products[0];
+        // return $products[0];
         return view("frontend.search", ["sizes" => $sizes, "products" => $products[0]]);
     }
 }

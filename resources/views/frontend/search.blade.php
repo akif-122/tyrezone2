@@ -183,7 +183,7 @@
                                         </div>
 
                                         <div class="price">
-                                            <form onsubmit="addToCart(event, '{{ $product }}')">
+                                            <form onsubmit="addToCart(event, {{ $product }})">
 
                                                 <div
                                                     class="price-label d-flex align-items-center justify-content-between flex-wrap mb-2">
@@ -243,9 +243,8 @@
     <script>
         function addToCart(event, pname) {
             event.preventDefault();
-            let product = JSON.parse(pname);
+            let product = pname;
             product.qty = Number(event.target.quantity.value);
-
 
 
             let cart = JSON.parse(localStorage.getItem("tyreZoneCart"));

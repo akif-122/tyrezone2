@@ -13,6 +13,7 @@ use Doctrine\Inflector\Rules\Pattern;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 
@@ -42,12 +43,14 @@ class AdminController extends Controller
     function index()
     {
 
-        $products = Product::select("id")->get();
-        $manufacturers = Manufacturer::select("id")->get();
-        $patterens = Patteren::select("id")->get();
+        $products = Product::with("patteren", "manufacturer")->get();
+        $manufacturers = Manufacturer::get();
+        $patterens = Patteren::with("manufacturer")->get();
         $users = User::select("id")->get();
         $orders = Order::select("id")->get();
-        
+
+
+
         return view("admin.dashboard", [
             "products" => $products,
             "manufacturers" => $manufacturers,
@@ -57,10 +60,11 @@ class AdminController extends Controller
         ]);
     }
 
-    function profile(){
+    function profile()
+    {
         return view("admin.profile");
     }
-    
+
 
     // SHOW ADMIN PRODUCT PAGE
     function products()
@@ -98,10 +102,10 @@ class AdminController extends Controller
             "wet_grip" => "required",
             "road_noise" => "required",
             "tyre_size" => "required",
-            // "width" => "required",
-            // "profile" => "required",
-            // "rim_size" => "required",
-            // "speed" => "required",
+            "width" => "required",
+            "profile" => "required",
+            "rim_size" => "required",
+            "speed" => "required",
             "tyre_type" => "required",
             "season_type" => "required",
             "budget_tyre" => "required",
@@ -112,7 +116,7 @@ class AdminController extends Controller
         if ($validator->passes()) {
             $image = $req->image;
             $ext =  $image->getClientOriginalExtension();
-            $imageName = "1_". time() . "." . $ext;
+            $imageName = "1_" . time() . "." . $ext;
 
             $imageName2 = "";
             if ($req->image2 != null) {
@@ -139,10 +143,10 @@ class AdminController extends Controller
             $product->wet_grip = $req->wet_grip;
             $product->road_noise = $req->road_noise;
             $product->tyre_size = $req->tyre_size;
-            // $product->width = $req->width;
-            // $product->profile = $req->profile;
-            // $product->rim_size = $req->rim_size;
-            // $product->speed = $req->speed;
+            $product->width = $req->width;
+            $product->profile = $req->profile;
+            $product->rim_size = $req->rim_size;
+            $product->speed = $req->speed;
             $product->tyre_type = $req->tyre_type;
             $product->season_type = $req->season_type;
             $product->budget_tyre = $req->budget_tyre;
@@ -152,10 +156,10 @@ class AdminController extends Controller
             $save = $product->save();
             if ($save) {
                 $image->move(public_path("uploads/products/"), $imageName);
-                if($req->image2 != null){
+                if ($req->image2 != null) {
                     $image2->move(public_path("uploads/products/"), $imageName2);
                 }
-                if($req->image3 != null){
+                if ($req->image3 != null) {
                     $image3->move(public_path("uploads/products/"), $imageName3);
                 }
                 return redirect()->route("admin.products")->with("success", "New Product Added Successfully!");
@@ -187,7 +191,7 @@ class AdminController extends Controller
     // UPDATE PRODUCT
     function updateProduct($id, Request $req)
     {
-        
+
         $validator = Validator::make($req->all(), [
             "name" => "required",
             "image" => "image",
@@ -217,7 +221,7 @@ class AdminController extends Controller
                 File::delete(public_path("uploads/products/") . $oldProduct->image);
                 $image = $req->image;
                 $ext =  $image->getClientOriginalExtension();
-                $imageName = "1_". time() . "." . $ext;
+                $imageName = "1_" . time() . "." . $ext;
             }
 
 
@@ -490,7 +494,9 @@ class AdminController extends Controller
     // SHOW ADMIN ALL USERS PAGE
     function users()
     {
-        return view("admin.users");
+        $users = User::get();
+
+        return view("admin.users", ["users" => $users]);
     }
 
     // SHOW ADMIN ADD USERS PAGE
@@ -499,9 +505,121 @@ class AdminController extends Controller
         return view("admin.add-user");
     }
 
-    // SHOW ADMIN edit USERS PAGE
-    function editUser()
+    function saveUser(Request $req)
     {
-        return view("admin.edit-user");
+        $validator = Validator::make(
+            $req->all(),
+            [
+                "fname" => "required|min:3",
+                "lname" => "required",
+                "email" => "required|email|unique:users",
+                "phone" => "required|min:10|max:11",
+                "role" => "required",
+                "password" => "required|min:3|confirmed",
+                "password_confirmation" => "required|min:3",
+            ],
+            [
+                "fname.required" => "First Name is required.",
+                "fname.min" => "First Name minimum should be 3 characters.",
+                "lname.required" => "Last Name is required.",
+                "email.required" => "Email is required.",
+                "email.email" => "Email is required.",
+                "email.unique" => "Email already exists.",
+                "role.required" => "Please select a role.",
+                "password.required" => "Password is required.",
+                "password.min" => "Password minimum 3 characters long.",
+                "password.confirmed" => "Password & confirm password are not matching.",
+                "password_confirmation.required" => "Confirm Password is required.",
+                "password_confirmation.min" => "Confirm Password minimum 3 characters long.",
+            ]
+        );
+
+
+        if ($validator->passes()) {
+            $user = new User();
+            $user->fname = $req->fname;
+            $user->lname = $req->lname;
+            $user->email = $req->email;
+            $user->phone = $req->phone;
+            $user->role = $req->role;
+            $user->password = Hash::make($req->password);
+            $user->save();
+            return redirect()->route("admin.users")->with("success", "New user added success fully!");
+        } else {
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
     }
+
+
+    // SHOW ADMIN edit USERS PAGE
+    function editUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        return view("admin.edit-user", ["user" => $user]);
+    }
+
+    function updateUser(Request $req)
+    {   
+
+        $validator = Validator::make(
+            $req->all(),
+            [
+                "fname" => "required|min:3",
+                "lname" => "required",
+                "email" => "required|email",
+                "phone" => "required|min:10|max:11",
+                "role" => "required",
+                
+            ],
+            [
+                "fname.required" => "First Name is required.",
+                "fname.min" => "First Name minimum should be 3 characters.",
+                "lname.required" => "Last Name is required.",
+                "email.required" => "Email is required.",
+                "email.email" => "Email is required.",
+                "email.unique" => "Email already exists.",
+                "role.required" => "Please select a role.",
+               
+            ]
+        );
+
+
+        if ($validator->passes()) {
+            $user = User::where("id", $req->id)->first();
+            $user->fname = $req->fname;
+            $user->lname = $req->lname;
+            $user->email = $req->email;
+            $user->phone = $req->phone;
+            $user->role = $req->role;
+            if ($req->password != null) {
+                $user->password = Hash::make($req->password);
+            }
+            if($user->save()){
+                return redirect()->route("admin.users")->with("success", " User updated success fully!");
+            }
+        } else {
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
+
+    }
+
+    function deleteUser(Request $req){
+        $user = User::findOrFail($req->id)->delete();
+
+        if($user){
+            session()->flash("success", "User Deleted!");
+            return [
+                "status"=> true
+            ];
+        };
+        
+        session()->flash("error", "Somthing goes wrong!");
+        return [
+            "status" => false,
+            "error"=> "something goes wrong"
+        ];
+
+    }
+    
 }
