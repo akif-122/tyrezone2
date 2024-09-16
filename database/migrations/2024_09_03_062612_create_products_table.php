@@ -23,10 +23,10 @@ return new class extends Migration
             $table->string("wet_grip");
             $table->string("road_noise");
             $table->string("tyre_size");
-            // $table->string("width");
-            // $table->string("profile");
-            // $table->string("rim_size");
-            // $table->string("speed");
+            $table->string("width");
+            $table->string("profile");
+            $table->string("rim_size");
+            $table->string("speed");
             $table->string("tyre_type");
             $table->string("season_type");
             $table->string("budget_tyre");
