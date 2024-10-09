@@ -23,7 +23,7 @@
                                             <a href="{{ route('shop-detail', ['id' => $product->id]) }}">
                                                 <div class="product-card border ">
                                                     <div class="p-card-img position-relative w-100">
-                                                        <img src="{{ asset('uploads/products/' . $product->image) }}"
+                                                        <img src="{{ asset('uploads/products/' . $product->images[0]->name) }}"
                                                             alt="" width="100%">
 
                                                         <div class="text-center">

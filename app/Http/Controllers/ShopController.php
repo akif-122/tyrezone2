@@ -20,15 +20,15 @@ class ShopController extends Controller
         $sizes = Size::get();
         $patterens = Patteren::get();
         $manufacturers = Manufacturer::get();
-        $products = Product::with("manufacturer", "patteren")->get();
+        $products = Product::with("manufacturer", "patteren", "images")->get();
         return view("frontend.shop", ["products" => $products, "patterens" => $patterens, "manufacturers" => $manufacturers, "sizes" => $sizes]);
     }
 
     function shopDetail($id){
 
-        $product = Product::where("id", $id)->with("manufacturer", "patteren")->first();
+        $product = Product::where("id", $id)->with("manufacturer", "patteren", "images")->first();
         // return $product;
-        $relatedProduct = Product::where(["manufacturer_id" => $product->manufacturer_id])->get();
+        $relatedProduct = Product::where(["manufacturer_id" => $product->manufacturer_id])->with("images")->get();
         // return $relatedProduct;
         return view("frontend.shop-detail", ["product"=> $product, "relatedProducts"=> $relatedProduct]);
     }

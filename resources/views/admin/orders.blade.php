@@ -96,23 +96,23 @@
         </div>
 
 
-        <div class="table-responsive">
-            <table class="table table-bordered">
+        <div class="table-responsive bg-danger" style="overflow: hidden; border-radius: 10px;">
+            <table class="table table-bordered mb-0 ">
                 <thead>
                     <tr>
                         <th>Cus. Name</th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th>Product Name</th>
-                        <th>Image</th>
+                        <th>Product Detail</th>
+                        {{-- <th>Image</th> --}}
                         {{-- <th>Manufac. Name</th>
                         <th>Tyre Patteren</th>
                          --}}
-                        <th>Size</th>
+                        {{-- <th>Size</th> --}}
                         <th>Shipping Address</th>
-                        {{-- <th>Postcode</th> --}}
-                        <th>Qty</th>
-                        <th>Price</th>
+                        {{-- <th>Products </th> --}}
+                        {{-- <th>Qty</th> --}}
+                        {{-- <th>Price</th> --}}
                         <th>Pay Status</th>
                         <th>Order Status</th>
 
@@ -127,28 +127,79 @@
                                 <td>{{ $order->orderDetail->fname }}</td>
                                 <td>{{ $order->orderDetail->email }}</td>
                                 <td>{{ $order->orderDetail->phone }}</td>
-                                <td>{{ $order->product->name }}</td>
                                 <td>
-                                    <img src="{{ asset('uploads/products/' . $order->product->image) }}" alt="">
+                                    <button class="btn btn-dark btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#productModal-{{ $order->order_id }}">View Products</button>
+                                    <div class="modal fade" id="productModal-{{ $order->order_id }}">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="mb-0" style="margin-bottom: 0 !important;">Products</h5>
+                                                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <h6 class="text-start">Order #: {{ $order->order_id }}</h6>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-condensed table-bordered">
+                                                            <tr class="bg-none">
+                                                                <th class="bg-transparent">Product Id</th>
+                                                                <th class="bg-transparent">
+                                                                    Product Name
+                                                                </th>
+                                                                <th class="bg-transparent">Product Image</th>
+                                                                <th class="bg-transparent">Size</th>
+                                                                <th class="bg-transparent">Qty</th>
+                                                            </tr>
+
+                                                            @foreach ($order->orderItem as $product)
+                                                                <tr>
+                                                                    <td>{{ $product->product->id }}</td>
+                                                                    <td>
+                                                                        <a class="text-black text-decoration-underline"
+                                                                            href="{{ route('shop-detail', ['id' => $product->product->id]) }}">
+                                                                            {{ $product->product->name }}
+                                                                        </a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <img src="{{ asset('uploads/products/' . $product->product->images[0]->name) }}"
+                                                                            width="40px" style="width: 50px;"
+                                                                            alt="">
+                                                                    </td>
+                                                                    <td>{{ $product->product->tyre_size }}</td>
+                                                                    <td>{{ $product->qty }}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
                                 </td>
-                                {{-- <td>Dunlop</td>
-                                <td>ECONO DRIVE</td> --}}
-                                <td class="text-nowrap">{{ $order->product->tyre_size}}</td>
+
                                 <td>{{ $order->orderDetail->address }}</td>
-                                {{-- <td>
-                                    24420 </td> --}}
-                                <td>{{ $order->qty }}</td>
-                                <td>{{ $order->product->price * $order->qty }}</td>
+
                                 <td>{{ $order->payment_status }}</td>
                                 <td>
                                     <select onchange="handleSelectChange(event, '{{ $order->id }}')"
                                         class="border-0 outline-0">
-                                        <option value="Pending" {{ ($order->order_status == "Pending")? "selected" : "" }}>Pending</option>
-                                        <option value="Confirmed" {{ ($order->order_status == "Confirmed")? "selected" : "" }}>Confirmed</option>
-                                        <option value="Invalid" {{ ($order->order_status == "Invalid")? "selected" : "" }}>Invalid</option>
-                                        <option value="Not Available" {{ ($order->order_status == "Not Available")? "selected" : "" }}>Not Available</option>
-                                        <option value="Delivered" {{ ($order->order_status == "Delivered")? "selected" : "" }}>Delivered</option>
-                                        <option value="Rejected" {{ ($order->order_status == "Rejected")? "selected" : "" }}>Rejected</option>
+                                        <option value="Pending" {{ $order->order_status == 'Pending' ? 'selected' : '' }}>
+                                            Pending</option>
+                                        <option value="Confirmed"
+                                            {{ $order->order_status == 'Confirmed' ? 'selected' : '' }}>Confirmed</option>
+                                        <option value="Invalid" {{ $order->order_status == 'Invalid' ? 'selected' : '' }}>
+                                            Invalid</option>
+                                        <option value="Not Available"
+                                            {{ $order->order_status == 'Not Available' ? 'selected' : '' }}>Not Available
+                                        </option>
+                                        <option value="Delivered"
+                                            {{ $order->order_status == 'Delivered' ? 'selected' : '' }}>Delivered</option>
+                                        <option value="Rejected"
+                                            {{ $order->order_status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
                                     </select>
                                 </td>
 
@@ -179,7 +230,7 @@
             let order_id = id;
 
             $.ajax({
-                url: "{{ route("admin.status") }}",
+                url: "{{ route('admin.status') }}",
                 type: "post",
                 data: {
                     "status": value,

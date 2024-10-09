@@ -14,6 +14,10 @@ class OrderDetail extends Model
         return $this->belongsTo(User::class);
     }
 
+    function order(){
+        return $this->belongsTo(Order::class, "order_id");
+    }
+
     
     
     

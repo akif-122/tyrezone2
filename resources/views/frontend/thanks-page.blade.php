@@ -33,6 +33,7 @@
                                     style="background: #fdac04 !important; font-weight: 500; color:black">Received</span>
                             </h5>
 
+                               
                             <div class="table-responsive">
                                 <table class="table table-bordered order-table">
                                     <thead>
@@ -45,16 +46,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($orders as $order)
+                                        @foreach ($orders->orderItem as $order)
                                             <tr>
                                                 <td>#{{ $order->order_id }}</td>
-                                                <td>{{ $order->product->name }}</td>
+                                                 <td>{{ $order->product->name }}</td>
                                                 <td>
-                                                    <img src="{{ asset('uploads/products/' . $order->product->image) }}"
+                                                    <img src="{{ asset('uploads/products/' . $order->product->images[0]->name) }}"
                                                         width="40px" style="width: 50px;" alt="">
                                                 </td>
                                                 <td>$ {{ $order->product->price }}</td>
-                                                <td>{{ $order->payment_status }}</td>
+                                                <td>{{ $orders->payment_status }}</td> 
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\OrderController;
+use App\Http\Controllers\admin\ProductImageController;
+use App\Http\Controllers\admin\TempImageController;
 use App\Http\Controllers\admin\TyreSizeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\PasswordResetController;
@@ -30,10 +33,12 @@ Route::get("/tyre-patteren/{m_id}/{id}", [PatterenController::class, "index"])->
 Route::view("/booking", "frontend.booking")->name("booking");
 Route::view("/gallery", "frontend.gallery")->name("gallery");
 Route::view("/about", "frontend.about")->name("about");
+Route::view("/contact", "frontend.contact")->name("contact");
+Route::post("/contact", [ContactController::class , "submit"])->name("contact.send");
 Route::view("/cart", "frontend.cart")->name("cart");
 // Route::view("/shop-detail", "frontend.shop-detail")->name("shop-detail");
 
-Route::get("/checkout", [PaymentController::class, "checkout"] )->name("checkout");
+Route::get("/checkout", [PaymentController::class, "checkout"])->name("checkout");
 
 // SEARCH 
 Route::get("/search", [SearchController::class, "search"])->name("search");
@@ -94,6 +99,12 @@ Route::group(["middleware" => "isAdmin"], function () {
         Route::get("products/edit/{id}", [AdminController::class, "editProduct"])->name("admin.editProduct");
         Route::post("products/update/{id}", [AdminController::class, "updateProduct"])->name("admin.updateProduct");
         Route::post("products/delete/", [AdminController::class, "deleteProduct"])->name("admin.deleteProduct");
+        Route::post("products/image/delete", [AdminController::class, "deleteProductImage"])->name("admin.deleteProductImage");
+
+        Route::post("products/image/upload", [ProductImageController::class, "upload"])->name("product.image.upload");
+
+        Route::post("temp/upload", [TempImageController::class, "store"])->name("temp.image.upload");
+        Route::post("temp/delete", [TempImageController::class, "destroy"])->name("temp.image.delete");
 
 
         // MANFUACTURES

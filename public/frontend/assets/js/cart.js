@@ -115,7 +115,7 @@ function callData() {
         newEle.classList.add("d-flex");
         newEle.innerHTML = `
                 <div class="img">
-                    <img src="${baseAssetUrl}/${product.image}" width="40px" alt="">
+                    <img src="${baseAssetUrl}/${product.images[0].name}" style="aspect-ratio: 1/1; width:50px; object-fit:cover; border-radius: 4px" alt="">
                 </div>
                 <div class="item-detail">
                     <p class="title">${product.name}</p>
@@ -156,7 +156,7 @@ function callData() {
         if (tbody != null) {
             let tr = document.createElement("tr");
 
-            tr.innerHTML = `<td class="text-center"><img src="${baseAssetUrl}/${product.image}" alt="" class="serviceicon" width="65"></td>
+            tr.innerHTML = `<td class="text-center"><img src="${baseAssetUrl}/${product.images[0].name}" alt="" class="serviceicon" width="65"></td>
                         <td data-th="Product Name:" class="text-left">${product.name}</td>
                         <td class="text-center">
                             <div class="quantity">

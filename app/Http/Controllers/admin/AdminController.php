@@ -7,7 +7,9 @@ use App\Models\Manufacturer;
 use App\Models\Order;
 use App\Models\Patteren;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\Size;
+use App\Models\TempImage;
 use App\Models\User;
 use Doctrine\Inflector\Rules\Pattern;
 use Illuminate\Http\Request;
@@ -69,7 +71,8 @@ class AdminController extends Controller
     // SHOW ADMIN PRODUCT PAGE
     function products()
     {
-        $products = Product::with("manufacturer", "patteren")->get();
+        $products = Product::with("manufacturer", "patteren", "images")->get();
+
 
         return view("admin.products", ["products" => $products]);
     }
@@ -92,10 +95,11 @@ class AdminController extends Controller
     // SAVE PRODUCT TO DATABSE
     function saveProduct(Request $req)
     {
+        // return $req->all();
 
         $validator = Validator::make($req->all(), [
             "name" => "required",
-            "image" => "required|image",
+            // "image" => "required|image",
             "manufacturer_id" => "required",
             "patteren_id" => "required",
             "fuel_efficiency" => "required",
@@ -114,29 +118,29 @@ class AdminController extends Controller
         ]);
 
         if ($validator->passes()) {
-            $image = $req->image;
-            $ext =  $image->getClientOriginalExtension();
-            $imageName = "1_" . time() . "." . $ext;
+            // $image = $req->image;
+            // $ext =  $image->getClientOriginalExtension();
+            // $imageName = "1_" . time() . "." . $ext;
 
-            $imageName2 = "";
-            if ($req->image2 != null) {
-                $image2 = $req->image2;
-                $ext =  $image2->getClientOriginalExtension();
-                $imageName2 = "2_" . time() . "." . $ext;
-            }
-            $imageName3 = "";
-            if ($req->image3 != null) {
-                $image3 = $req->image3;
-                $ext =  $image3->getClientOriginalExtension();
-                $imageName3 = "3_" . time() . "." . $ext;
-            }
+            // $imageName2 = "";
+            // if ($req->image2 != null) {
+            //     $image2 = $req->image2;
+            //     $ext =  $image2->getClientOriginalExtension();
+            //     $imageName2 = "2_" . time() . "." . $ext;
+            // }
+            // $imageName3 = "";
+            // if ($req->image3 != null) {
+            //     $image3 = $req->image3;
+            //     $ext =  $image3->getClientOriginalExtension();
+            //     $imageName3 = "3_" . time() . "." . $ext;
+            // }
 
 
             $product = new Product();
             $product->name = $req->name;
-            $product->image = $imageName;
-            $product->image2 = $imageName2;
-            $product->image3 = $imageName3;
+            // $product->image = $imageName;
+            // $product->image2 = $imageName2;
+            // $product->image3 = $imageName3;
             $product->manufacturer_id = $req->manufacturer_id;
             $product->patteren_id = $req->patteren_id;
             $product->fuel_efficiency = $req->fuel_efficiency;
@@ -154,16 +158,48 @@ class AdminController extends Controller
             $product->description = $req->description;
 
             $save = $product->save();
-            if ($save) {
-                $image->move(public_path("uploads/products/"), $imageName);
-                if ($req->image2 != null) {
-                    $image2->move(public_path("uploads/products/"), $imageName2);
+
+
+            foreach ($req->img_id as $img) {
+
+                $tempImage = TempImage::find($img);
+
+                $extArray = explode(".", $tempImage->name);
+                $ext = last($extArray);
+
+
+                $productImage = new ProductImage();
+                $productImage->name = "null";
+                $productImage->product_id = $product->id;
+                $productImage->save();
+
+                $imgName = $productImage->id . time() . "." . $ext;
+                $productImage->name = $imgName;
+                $productImage->save();
+
+                $sourcePath = public_path("temp/" . $tempImage->name);
+                $destPath = public_path("uploads/products/" . $imgName);
+
+                $isCopied = File::copy($sourcePath, $destPath);
+
+                if($isCopied){
+                    File::delete($sourcePath);
+                    $tempImage->delete();
                 }
-                if ($req->image3 != null) {
-                    $image3->move(public_path("uploads/products/"), $imageName3);
-                }
-                return redirect()->route("admin.products")->with("success", "New Product Added Successfully!");
+
+
             }
+            return redirect()->route("admin.products")->with("success", "New Product Added Successfully!");
+
+            // if ($save) {
+            //     $image->move(public_path("uploads/products/"), $imageName);
+            //     if ($req->image2 != null) {
+            //         $image2->move(public_path("uploads/products/"), $imageName2);
+            //     }
+            //     if ($req->image3 != null) {
+            //         $image3->move(public_path("uploads/products/"), $imageName3);
+            //     }
+            // }
         } else {
             return redirect()->back()->withInput()->withErrors($validator);
         }
@@ -174,7 +210,8 @@ class AdminController extends Controller
     function editProduct($id)
     {
         $product = Product::where("id", $id)->with("manufacturer", "patteren")->first();
-        // return $product;
+        $productImage = ProductImage::where("product_id", $id)->get();
+        // return $productImage;
         $manufacturers = Manufacturer::all();
         $patterens = Patteren::all();
         $sizes = Size::all();
@@ -182,6 +219,7 @@ class AdminController extends Controller
 
         return view("admin.edit-product", [
             "product" => $product,
+            "images"=> $productImage,
             "manufacturers" => $manufacturers,
             "patterens" => $patterens,
             "sizes" => $sizes
@@ -285,6 +323,23 @@ class AdminController extends Controller
             return redirect()->back()->withInput()->withErrors($validator);
         }
     }
+
+
+    // DELETE PRODUCT IMAGE
+    function deleteProductImage(Request $req){
+        $productImage = ProductImage::find($req->id);
+
+        File::delete(public_path("uploads/products/". $productImage->name));
+
+        $productImage->delete();
+
+        return [
+            "status"=> true,
+        ];
+
+        
+    }
+    
 
     // DELETE PRODUCT
     function deleteProduct(Request $req)
@@ -560,7 +615,7 @@ class AdminController extends Controller
     }
 
     function updateUser(Request $req)
-    {   
+    {
 
         $validator = Validator::make(
             $req->all(),
@@ -570,7 +625,7 @@ class AdminController extends Controller
                 "email" => "required|email",
                 "phone" => "required|min:10|max:11",
                 "role" => "required",
-                
+
             ],
             [
                 "fname.required" => "First Name is required.",
@@ -580,7 +635,7 @@ class AdminController extends Controller
                 "email.email" => "Email is required.",
                 "email.unique" => "Email already exists.",
                 "role.required" => "Please select a role.",
-               
+
             ]
         );
 
@@ -595,31 +650,29 @@ class AdminController extends Controller
             if ($req->password != null) {
                 $user->password = Hash::make($req->password);
             }
-            if($user->save()){
+            if ($user->save()) {
                 return redirect()->route("admin.users")->with("success", " User updated success fully!");
             }
         } else {
             return redirect()->back()->withInput()->withErrors($validator);
         }
-
     }
 
-    function deleteUser(Request $req){
+    function deleteUser(Request $req)
+    {
         $user = User::findOrFail($req->id)->delete();
 
-        if($user){
+        if ($user) {
             session()->flash("success", "User Deleted!");
             return [
-                "status"=> true
+                "status" => true
             ];
         };
-        
+
         session()->flash("error", "Somthing goes wrong!");
         return [
             "status" => false,
-            "error"=> "something goes wrong"
+            "error" => "something goes wrong"
         ];
-
     }
-    
 }

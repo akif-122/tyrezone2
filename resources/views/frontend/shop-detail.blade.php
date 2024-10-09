@@ -16,11 +16,13 @@
                     <div class="col-lg-5 col-12 mx-auto mb-5">
                         <div class="product-view ">
                             <div class="main-img d-flex ">
-                                <div class="p-img">
-                                    <img src="{{ asset('uploads/products/' . $product->image) }}" width="100%"
-                                        alt="">
-                                </div>
-                                @if ($product->image2 != null)
+                                @foreach ($product->images as $key => $image)
+                                    <div class="p-img">
+                                        <img src="{{ asset('uploads/products/' . $image->name) }}" width="100%"
+                                            alt="">
+                                    </div>
+                                @endforeach
+                                {{-- @if ($product->image2 != null)
                                     <div class="p-img">
                                         <img src="{{ asset('uploads/products/' . $product->image2) }}" width="100%"
                                             alt="">
@@ -33,15 +35,17 @@
                                         <img src="{{ asset('uploads/products/' . $product->image3) }}" width="100%"
                                             alt="">
                                     </div>
-                                @endif
+                                @endif --}}
                             </div>
                             <div class="img-filter d-flex align-items-center justify-content-around">
-                                <div class="filter active" data-filter="1">
-                                    <img src="{{ asset('uploads/products/' . $product->image) }}" width="100px"
-                                        alt="">
-                                </div>
+                                @foreach ($product->images as $key => $image)
+                                    <div class="filter active" data-filter="{{ $key+1 }}">
+                                        <img src="{{ asset('uploads/products/' . $image->name) }}" width="100px"
+                                            alt="">
+                                    </div>
+                                @endforeach
 
-                                @if ($product->image2 != null)
+                                {{-- @if ($product->image2 != null)
                                     <div class="filter" data-filter="2">
                                         <img src="{{ asset('uploads/products/' . $product->image2) }}" width="100px"
                                             alt="">
@@ -53,7 +57,7 @@
                                         <img src="{{ asset('uploads/products/' . $product->image3) }}" width="100px"
                                             alt="">
                                     </div>
-                                @endif
+                                @endif --}}
 
                             </div>
                         </div>
@@ -65,7 +69,7 @@
                                 <a href="#description">More Detail</a>
                             </p>
 
-                            <h5 class="price">$ 300.00</h5>
+                            <h5 class="price">${{$product->price  }}</h5>
 
                             <div class="btns d-flex gap-3 my-4">
                                 <button onclick="addToCart({{ $product }})"
@@ -75,7 +79,7 @@
                             </div>
 
                             <div class="tyre-detail pt-3">
-                                <h4>{{ $product->manufacturer->name . ' ' . $product->tyre_size }}</< /h4>
+                                <h4>{{ $product->manufacturer->name . ' ' . $product->tyre_size }}</h4>
                                     <div class="mt-2 table-responsive">
                                         <table class="table table-striped border">
                                             <tbody>
@@ -147,11 +151,11 @@
                             <div class="row">
                                 @if ($relatedProducts->isNotEmpty())
                                     @foreach ($relatedProducts as $relatedProduct)
-                                     <div class="col-lg-3 col-sm-6 px-2">
+                                        <div class="col-lg-3 col-sm-6 px-2">
                                             <a href="{{ route('shop-detail', ['id' => $relatedProduct->id]) }}">
                                                 <div class="product-card border ">
                                                     <div class="p-card-img position-relative w-100">
-                                                        <img src="{{ asset('uploads/products/' . $relatedProduct->image) }}"
+                                                        <img src="{{ asset('uploads/products/' . $relatedProduct->images[0]->name) }}"
                                                             alt="" width="100%">
 
                                                         <div class="text-center">
@@ -180,8 +184,6 @@
                                             </a>
 
                                         </div>
-                                    
-                                      
                                     @endforeach
                                 @endif
 

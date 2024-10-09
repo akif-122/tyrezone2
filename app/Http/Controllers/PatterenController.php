@@ -16,7 +16,7 @@ class PatterenController extends Controller
             return abort(404);
         }
 
-        $products = Product::where(["patteren_id" => $id, "manufacturer_id" => $m_id])->with("patteren", "manufacturer")->get();
+        $products = Product::where(["patteren_id" => $id, "manufacturer_id" => $m_id])->with("patteren", "manufacturer" , "images")->get();
         if (count($products) == 0) {
             return abort(404);
         }

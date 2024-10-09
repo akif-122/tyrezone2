@@ -18,4 +18,10 @@ class Product extends Model
     {
         return $this->belongsTo(Patteren::class);
     }
+
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
 }

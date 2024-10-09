@@ -208,10 +208,10 @@
                                     <!-- tyre card -->
                                     <div class="col-lg-3 col-lg-4 col-sm-6 mb-3 px-2">
                                         <div class="tyre-card">
-                                            <div class="card-body border-0">
+                                            <div class="card-body border-0 ">
 
-                                                <div class="tyre-img border-bottom mx-auto w-100">
-                                                    <img src="{{ asset('uploads/products/' . $product->image) }}"
+                                                <div class="tyre-img border-bottom mx-auto w-100" style="max-width: 100%;">
+                                                    <img src="{{ asset('uploads/products/' . $product->images[0]->name) }}"
                                                         width="100%" alt="">
                                                 </div>
 

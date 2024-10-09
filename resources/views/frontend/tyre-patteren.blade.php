@@ -46,7 +46,7 @@
                                             <div class="pattern-card border rounded p-2">
                                                 <div class="patt-card-head">
                                                     <div class="pt-img">
-                                                        <img src="{{ asset('uploads/products/' . $product->image) }}"
+                                                        <img src="{{ asset('uploads/products/' . $product->images[0]->name) }}"
                                                             alt="">
                                                     </div>
                                                 </div>

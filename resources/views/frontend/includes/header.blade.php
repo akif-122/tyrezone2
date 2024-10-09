@@ -146,7 +146,7 @@
                     <li><a class="{{ Route::is("shop") ? "active" : "" }}" href="{{ route('shop') }}">Shop</a></li>
                     {{-- <li><a href="blogs.html">Blog</a></li> --}}
                     <li><a class="{{ Route::is("about") ? "active" : "" }}" href="{{ route('about') }}">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a class="{{ Route::is("about") ? "active" : "" }}" href="{{ route("contact") }}">Contact</a></li>
 
 
                 </ul>

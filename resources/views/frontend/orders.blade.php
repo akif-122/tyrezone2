@@ -32,7 +32,7 @@
 
                         <div class="content-area mt-5">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="m-0">Orders</h5>
+                                <h5 class="mb-3">Orders</h5>
 
 
                             </div>
@@ -42,14 +42,11 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>Product Name</th>
-                                            <th>Image</th>
-                                            <th>Manufac. Name</th>
-                                            <th>Tyre Patteren</th>
-                                            
-                                            <th>Size</th>
-                                            <th>Qty</th>
-                                            <th>Price</th>
+                                            <th>Product ID</th>
+                                            <th>Name</th>
+                                            <th>mobile</th>
+                                            <th>Address</th>
+                                            <th class="text-center">Products</th>
                                             <th>Payment Status</th>
                                             <th>Order Status</th>
 
@@ -59,22 +56,75 @@
                                     <tbody>
 
                                         @if ($orders != null)
-                                            @foreach ($orders->products as $product)
+                                            @foreach ($orders as $order)
                                                 <tr>
-                                                    <td>{{ $product->product->name }}</td>
-                                                    <td> <img src="{{ asset("uploads/products/".$product->product->image) }}" width="40px"
-                                                            alt="">
+                                                    <td>#{{ $order->order_id }}</td>
+                                                    <td>{{ $order->orderDetail->fname }}</td>
+                                                    <td>{{ $order->orderDetail->phone }}</td>
+                                                    <td>{{ $order->orderDetail->address }}</td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-dark btn-sm" data-bs-toggle="modal"
+                                                            data-bs-target="#productModal-{{ $order->order_id }}">View
+                                                            Products</button>
+                                                        <div class="modal fade" id="productModal-{{ $order->order_id }}">
+                                                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="mb-0"
+                                                                            style="margin-bottom: 0 !important;">Products
+                                                                        </h5>
+                                                                        <button class="btn-close"
+                                                                            data-bs-dismiss="modal"></button>
+                                                                    </div>
+
+                                                                    <div class="modal-body">
+                                                                        <h6 class="text-start">Order #:
+                                                                            {{ $order->order_id }}</h6>
+                                                                        <div class="table-responsive">
+                                                                            <table
+                                                                                class="table table-condensed table-bordered">
+                                                                                <tr class="bg-none">
+                                                                                    
+                                                                                    <th class="bg-transparent">
+                                                                                        Product Name
+                                                                                    </th>
+                                                                                    <th class="bg-transparent">Product Image
+                                                                                    </th>
+                                                                                    <th class="bg-transparent">Size</th>
+                                                                                    <th class="bg-transparent">Qty</th>
+                                                                                </tr>
+
+                                                                                @foreach ($order->orderItem as $product)
+                                                                                    <tr>
+                                                                                        
+                                                                                        <td>
+                                                                                            <a class="text-black text-decoration-underline"
+                                                                                                href="{{ route('shop-detail', ['id' => $product->product->id]) }}">
+                                                                                                {{ $product->product->name }}
+                                                                                            </a>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <img src="{{ asset('uploads/products/' . $product->product->images[0]->name) }}"
+                                                                                                width="40px"
+                                                                                                style="width: 50px;"
+                                                                                                alt="">
+                                                                                        </td>
+                                                                                        <td>{{ $product->product->tyre_size }}
+                                                                                        </td>
+                                                                                        <td>{{ $product->qty }}</td>
+                                                                                    </tr>
+                                                                                @endforeach
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </td>
-                                                    <td>{{ $product->product->manufacturer->name }}</td>
-                                                    <td>{{ $product->product->patteren->name }}</td>
-
-                                                    
-                                                    <td>{{ $product->product->tyre_size}}</td>
-                                                    <td>{{  $product->qty }}</td>
-                                                    <td>{{ $product->product->price }}</td>
-                                                    <td>{{ $product->payment_status }}</td>
-                                                    <td>{{ $product->order_status }}</td>
-
+                                                    <td>{{ $order->payment_status }}</td>
+                                                    <td>{{ $order->order_status }}</td>
                                                 </tr>
                                             @endforeach
                                         @endif

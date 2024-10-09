@@ -42,7 +42,8 @@
                             <tr>
                                 <td>{{ $product->id }}</td>
                                 <td>{{ $product->name }}</td>
-                                <td><img src="{{ asset('uploads/products/' . $product->image) }}" alt="ECO PLUSH"></td>
+                                <td>
+                                    <img src="{{ asset('uploads/products/' . $product->images[0]->name) }}" alt="ECO PLUSH"></td>
                                 <td>{{ $product->manufacturer->name }}</td>
                                 <td>{{ $product->patteren->name }}</td>
                                 <td>{{ $product->fuel_efficiency }}</td>

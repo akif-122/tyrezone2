@@ -1,6 +1,7 @@
 @extends('admin.layout.main')
 
 @section('style')
+    <link rel="stylesheet" href="{{ asset('admin/assets/dropzone/dropzone.min.css') }}" />
 @endsection
 
 
@@ -120,34 +121,34 @@
                                 <div class="col-md-6 mb-4">
                                     <div class="form-group">
                                         <label for="">Width</label>
-                                        <input class="form-control @error('width') is-invalid @enderror" type="text" placeholder="Width" name="width"
-                                            id="">
+                                        <input class="form-control @error('width') is-invalid @enderror" type="text"
+                                            placeholder="Width" name="width" id="">
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <div class="form-group">
                                         <label for="">Profile</label>
-                                        <input class="form-control @error('profile') is-invalid @enderror" type="text" placeholder="Profile" name="profile"
-                                            id="">
+                                        <input class="form-control @error('profile') is-invalid @enderror" type="text"
+                                            placeholder="Profile" name="profile" id="">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                         <div class="col-md-4 mb-4">
+                        <div class="col-md-4 mb-4">
                             <div class="row g-2">
                                 <div class="col-md-6 mb-4">
                                     <div class="form-group">
                                         <label for="">Rim Size</label>
-                                        <input class="form-control @error('rim_size') is-invalid @enderror" type="text" placeholder="Rim Size" name="rim_size"
-                                            id="">
+                                        <input class="form-control @error('rim_size') is-invalid @enderror" type="text"
+                                            placeholder="Rim Size" name="rim_size" id="">
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <div class="form-group">
                                         <label for="">Speed</label>
-                                        <input class="form-control @error('speed') is-invalid @enderror" type="text" placeholder="Speed" name="speed"
-                                            id="">
+                                        <input class="form-control @error('speed') is-invalid @enderror" type="text"
+                                            placeholder="Speed" name="speed" id="">
                                     </div>
                                 </div>
                             </div>
@@ -155,7 +156,7 @@
 
 
 
-                     
+
 
                         <div class="col-md-4 mb-4">
                             <div class="form-group">
@@ -213,42 +214,21 @@
                             </div>
                         </div>
 
+                        <div class="col-12">
+                            <div id="image" class="dropzone dz-clickable">
+                                <div class="dz-message needsclick">
+                                    <br>Drop files here or click to upload.<br><br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="img_wrapper">
+
+                        </div>
 
 
 
                         <div class="col-md-12 mb-4 ">
-                            <div class="form-group">
-
-                                <div class="row product-imgs">
-                                    <div class="col-4 mb-4">
-                                        <label for="">Image 1*:</label>
-                                        <input type="file" id="image1" name="image"
-                                            class="files form-control @error('image') is-invalid @enderror"
-                                            placeholder="Image URL">
-                                    </div>
-                                    <div class="col-4 mb-4">
-                                        <label for="">Image 2:</label>
-
-                                        <input type="file" id="image1" name="image2"
-                                            class="files form-control @error('image2') is-invalid @enderror"
-                                            placeholder="Image URL">
-                                    </div>
-                                    <div class="col-4 mb-4">
-                                        <label for="">Image 3:</label>
-
-                                        <input type="file" id="image1" name="image3"
-                                            class="files form-control @error('image3') is-invalid @enderror"
-                                            placeholder="Image URL">
-                                    </div>
-                                </div>
-
-
-
-                            </div>
-
-
-
-
                             <div class="col-12 mb-4">
                                 <textarea class="summernote" name="description" cols="5" placeholder="Benefits">{{ old('description') }}</textarea>
                             </div>
@@ -274,6 +254,62 @@
 
 
 
-
 @section('customjs')
+    <script src="{{ asset('admin/assets/dropzone/dropzone.min.js') }}"></script>
+
+    <script>
+        Dropzone.autoDiscover = false;
+        const dropzone = $("#image").dropzone({
+            // uploadprogress: function(file, progress, bytesSent) {
+            //     $("button[type=submit]").prop('disabled', true);
+            // },
+            url: "{{ route('temp.image.upload') }}",
+            maxFiles: 10,
+            paramName: 'image',
+            addRemoveLinks: true,
+            acceptedFiles: "image/jpeg,image/png,image/gif",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(file, res) {
+                console.log(res)
+
+
+                let html = `<div class="col-md-3 my-3 " id="img-container-${res.image_id}">
+                                <div class="card">
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="handleDeleteTempImg(${res.image_id})">Delete</button>
+                                    
+                                    <img src="${res.image_path}" width="100%" style="width: 100%; height: 150px; object-fit: cover;" alt="">
+                                    <div class="card-body">
+                                        <input type="text"  name="img_id[]" id="img_id" value="${res.image_id}" class="form-control">
+                                    </div>
+                                </div>
+                            </div>`;
+
+                console.log(html);
+
+                $("#img_wrapper").append(html);
+
+                // $("#image_id").val(response.image_id);
+                this.removeFile(file);
+            }
+        });
+
+        // DELETE TEMP IMAGE
+        function handleDeleteTempImg(id) {
+            if (confirm("Are you sure you want to delete?")) {
+                $.ajax({
+                    url: "{{ route("temp.image.delete") }}",
+                    type: "post", 
+                    data: {id},
+                    success: function (res){
+                        console.log(res);
+                        if(res.status){
+                            $("#img-container-"+id).remove();
+                        }
+                    }
+                })
+            }
+        }
+    </script>
 @endsection
